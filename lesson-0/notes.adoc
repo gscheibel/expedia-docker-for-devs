@@ -23,8 +23,6 @@ image::docker_vs_vm.jpg[align="center"]
 
 If you want more details about the differences between Docker and VMs you could read https://blog.docker.com/2016/03/containers-are-not-vms/[this] or https://devops.com/docker-vs-vms/[this] articles.
 
-==== Docker registry
-
 === Set up
 
 If you don't have docker installed yet, go to the Docker page https://docs.docker.com/docker-for-mac/[for Mac] or https://docs.docker.com/docker-for-windows/[for Windows] and download the installation file.
