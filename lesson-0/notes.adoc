@@ -10,18 +10,18 @@ endif::full-version[]
 
 === Docker vs Virtual Machines
 
-You may wondering why you should learn Docker when you already know what is a VM and how to use it to encapsulate and run an application.
+You may wondering why you should learn Docker when you already know what a VM is and how to use it to encapsulate and run an application.
 
 When you create a VM you need to emulate every component of the machine, you should install a full OS and you should configure it to run your service.
-Of course you can use provisioning tools but is still time consuming, resource heavy and, most of all, it doesn't feel good when you are building micro services.
+Of course you can use provisioning tools but this is still time consuming, resource heavy and, most of all, it doesn't feel good when you are building micro services.
 
 Docker uses all the resources of your host machine and it just creates an isolated filesystem (using https://en.wikipedia.org/wiki/UnionFS[UFS]) where to run your service.
 This approach is lighter and much faster.
-Of course there are other cool features of Docker that make it a great tool, but will go through them during this course.
+Of course there are other cool features of Docker that make it a great tool, but we will go through them during this course.
 
 image::docker_vs_vm.jpg[align="center"]
 
-If you want more details about the differences between Docker and VMs you could read https://blog.docker.com/2016/03/containers-are-not-vms/[this] or https://devops.com/docker-vs-vms/[this] articles.
+If you want more details about the differences between Docker and VMs, you should read https://blog.docker.com/2016/03/containers-are-not-vms/[this] or https://devops.com/docker-vs-vms/[this] article.
 
 === Set up
 
@@ -30,16 +30,16 @@ The easiest way then is to follow the steps provided on the page (https://docs.d
 
 === Is my set up completed?
 
-As mentioned in the official page, you should be able to a Docker icon (a small whale) in your top status bar.
+As mentioned in the official page, you should be able to see a Docker icon (a small whale) in your top status bar.
 
 From a new terminal, you should be able to run the following commands:
 
 [source]
 docker --version
 
-And have something similar to `Docker version 1.12.5, build 7392c3b` as an output.
+And have something similar to `Docker version 1.12.5, build 7392c3b` as output.
 
-TIP: You can easily install Docker command completion by following https://docs.docker.com/compose/completion/#/bash[this] steps
+TIP: You can easily install Docker command completion by following https://docs.docker.com/compose/completion/#/bash[these] steps
 
 === Pulling Docker images
 For this course, we are going to use mostly the Debian base image.
@@ -89,7 +89,7 @@ include::solutions.adoc[tags=downloadJessie]
 A container is to an image what the cake is to a recipe.
 Now we know the recipe to create a "debian cake" let's bake!
 
-Effectively, running container means running a command in a new container.
+Effectively, running a container means running a command in a new container. (?)
 Containers are running a Linux environment, so run a good old bash.
 
 To start a new container we are going to use the `run` command.
