@@ -6,19 +6,19 @@ include::../headers.adoc[]
 toc::[]
 endif::full-version[]
 
-== Lesson 6: Let's run a small app using what we learnt so far.
+== Lesson 6: Let's run a small app using what we've learnt so far.
 
 === Our small project
 
 Today we are going to set-up a simple environment to run a web application.
 
-Our stack will be composed of a Docker container running a *Database* (Redis) and another one running a *Web Application* (Node.js).
+Our stack will be composed of a Docker container running a *Database* (Redis) and another container running a *Web Application* (Node.js).
 
 What we want to achieve is:
 
 . Create a reusable _base_ image for our _Web Application_
 . Pass some *arguments* to the Dockerfile at build time
-. Link the *Database* container with the *Web application* one
+. Link the *Database* container with the *Web application* container
 . Mount the logs folder of each container in one folder on our host machine
 . Make our _database_ persistent
 
@@ -26,10 +26,10 @@ What we want to achieve is:
 
 A base image is a generic purpose image that we would like to use as a base environment for multiple applications.
 
-So far we used the _debian_ image to build all our images, and when we needed a software that was not pre-installed, we used the RUN instruction and the _Debian_ package manager to get it.
-This approach is perfectly fine, but it can quickly become tedious if we end doing again and again the same steps in all our _Dcokerfile_.
+So far we used the _debian_ image to build all our images, and when we needed software that was not pre-installed, we used the RUN instruction and the _Debian_ package manager to get it.
+This approach is perfectly fine, but it can quickly become tedious if we end doing again and again the same steps in all our _Dockerfile_.
 
-What we can do to solve this issue is to build a normal image containing all the dependencies we need and use it as a base image for our application's Dokcerfile.
+What we can do to solve this issue is to build a normal image containing all the dependencies we need and use it as a base image for our application's Dockerfile.
 
 In this scenario the *ONBUILD* instruction can be very useful:
 
