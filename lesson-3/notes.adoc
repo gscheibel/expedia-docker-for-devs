@@ -10,7 +10,7 @@ endif::full-version[]
 
 === Not that isolated
 
-One of the main feature of Docker is the _isolation_ of containers.
+One of the main features of Docker is the _isolation_ of containers.
 A running _container_, by default, can't communicate with other containers or with the host machine.
 Furthermore, once you created an _image_, you can only read and write files within the running _container_.
 
@@ -28,10 +28,10 @@ A _volume_ is a special kind of directory that provides several useful features:
 
 === Volumes Sharing
 
-As we now, when we write on the filesystem, we actually write on a temporary layer which is not persistent across all the containers.
-To be able to share files with the outside world, we can mount an external Volume and attach it to around container.
+As we know, when we write on the filesystem, we actually write on a temporary layer which is not persistent across all the containers.
+To be able to share files with the outside world, we can mount an external Volume and attach it to around(?) container.
 
-A volume can be a simple file or a directory which is mounted when then container is ran.
+A volume can be a simple file or a directory which is mounted when the container is run.
 
 ==== Between the Host and the container
 
@@ -71,7 +71,7 @@ include::solutions.adoc[tags=firstVolumeSharing]
 
 ==== Between containers
 
-As we've seen, the `-v` argument mount a local (host) folder.
+As we've seen, the `-v` argument mounts a local (host) folder.
 But how can we share file between containers?
 
 ===== Exposing volumes

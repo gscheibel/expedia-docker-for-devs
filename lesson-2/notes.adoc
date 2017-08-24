@@ -10,7 +10,7 @@ endif::full-version[]
 
 === A quick recap about Docker Images
 
-A Docker Images is made up of filesystems layered over each other.
+A Docker Image is made up of filesystems layered over each other.
 At the base there is a boot filesystem, _bootfs_, on top of it there is the _rootfs_, our Operation System (eg. Debian).
 At this point we can add other layers to compose our final _image_, each of this layers are _read-only_ images.
 When we finally run our container (_docker run <image name>_), we are just adding a new _read-write_ layer on top of our _read-only_ layers pile.
@@ -27,7 +27,7 @@ This approach is usually recommended because it provides a more repeatable mecha
 === Dockerfile and images
 
 A Dockerfile is effectively a text file describing a set of instructions to execute when the image is being built.
-All the instructions are following the same syntax:
+All the instructions follow the same syntax:
 
 [source]
 ----
@@ -38,13 +38,13 @@ INSTRUCTION arguments
 The first instruction *must* be `FROM`.
 It specifies which base image your are building from.
 
-For example building a custom image out of the `debian:jessie-slim` one would be:
+For example building a custom image on top of the `debian:jessie-slim` image one would be:
 
 [source]
 include::dockerfiles/firstBuild[]
 
 Previously to create a new image, we used `commit`.
-Now we are going to use the `build` one.
+Now we are going to use the `build` command.
 
 [TIP]
 --
@@ -53,11 +53,11 @@ And more specifically at the `-f` and `-t` options, they will be useful.
 --
 
 .Exercise
-Build with a tag (of your choice) a docker image based on `debian:latest`.
-Then look up into your local set of images if you can find it.
+Build, with a tag of your choice, a docker image based on `debian:latest`.
+Then look up the list of local images on your machine to see if you can find it.
 
 .Expected output
-Once you ran that command, you should be able to see something like
+Once you run that command, you should be able to see something like
 
 :firstBuildID: 7d86024f45a4
 [source, subs="attributes"]
@@ -68,7 +68,7 @@ Step 1/1 : FROM debian:jessie-slim
 Successfully built {firstBuildID}
 ----
 
-By running a `docker images` we can check the new image is there
+By running `docker images` we can check the new image is there
 
 [source]
 ----
@@ -85,9 +85,9 @@ include::solutions.adoc[tags=firstBuild]
 Let people know who is maintaining the image and its Dockerfile by adding a label.
 To do so, we can add a label to our image.
 
-The `LABEL` instruction add a set of key-value pairs to the image.
+The `LABEL` instruction adds a set of key-value pairs to the image.
 Labels are like comments for the the image itself.
-Images can have several labels and their content can be any strings.
+Images can have several labels and their content can be any string.
 
 .Exercise
 Add a label named `maintainer` with your name to your docker image and rebuild it.
@@ -115,7 +115,7 @@ include::solutions.adoc[tags=withMaintainer]
 
 === Let's build up our images
 
-To customize an image from a Dockerfile, there are several interesting instruction to know.
+To customize an image from a Dockerfile, there are several interesting instructions to know.
 
 ==== How to `RUN` a command at build time?
 
@@ -131,7 +131,7 @@ RUN ["executable", "param1", "param2"] <2>
 ----
 
 <1> This form only run the <command> in a `sh` shell
-<2> If you want to run a command like `/bin/bash -c <doSomething>`, use that form (`RUN ["/bin/bash", "-c", "<doSomething>"]`).
+<2> If you want to run a command like `/bin/bash -c <doSomething>`, using the form (`RUN ["/bin/bash", "-c", "<doSomething>"]`).
 
 .Exercise
 Add a new layer by creating a `logs` folder under `/opt` and build the image.
@@ -154,14 +154,14 @@ Removing intermediate container f4f814acbd73
 Successfully built 35e492fc1c49
 ----
 
-<1> As this step as not been modified, there is no need to rebuild it and it can be reused from the cache directly which speeds up the build process
+<1> As this step has not been modified, there is no need to rebuild it and it can be reused from the cache directly which speeds up the build process
 <2> Our new instruction
 
 include::solutions.adoc[tags=mkdirLogs]
 
 ===== How to customize the execution of the container?
 
-By default, base image such as debian run a `/bin/bash` at startup time.
+By default, a base image such as debian runs a `/bin/bash` command at startup time.
 We can customize that by using the https://docs.docker.com/engine/reference/builder/#/cmd[CMD] instruction.
 
 When the container starts, it will run this command.
@@ -191,7 +191,7 @@ include::solutions.adoc[tags=withCMD]
 Of course we can use variables to avoid repeating ourselves in the Dockerfile.
 The https://docs.docker.com/engine/reference/builder/#/env[ENV] instruction let you declare an environment variable.
 
-The syntax is very simple `ENV key value`.
+The syntax is very simple: `ENV key value`.
 Then to use the variable you have 2 syntaxes `$key` or `${key}`.
 
 .Exercise

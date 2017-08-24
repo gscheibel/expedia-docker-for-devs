@@ -34,7 +34,7 @@ When we create a container out of an image, the Docker engine adds an extra read
 
 How do you save your changes with git?
 `git commit` of course. +
-With Docker it works more or less the same way.
+With Docker, it works more or less the same way.
 
 .Exercise
 From the Debian base image, create a simple `logs` folder under `/opt`.
@@ -93,7 +93,7 @@ include::solutions.adoc[tags=commitWithName]
 ==== Tagging
 
 Tags are used to set the version of the image.
-Like you would have with the version of a software or a library.
+Like you would have with the version of a piece of software or a library.
 
 Tags can pretty much be any string.
 Remember `debian:latest` and `debian:jessie-slim`
@@ -117,7 +117,7 @@ include::solutions.adoc[tags=commitWithTag]
 ==== Sharing your image
 
 If we can pull images, we should be able to push right?
-When we want to add or share a library, we are used to use a central repository like Maven Central, Ruby Gems, NPM repository and so on.
+When we want to add or share a library, we are used to using a central repository like Maven Central, Ruby Gems, NPM repositories and so on.
 
 With Docker it works the same way.
 The default repository is named https://hub.docker.com/[Docker Hub].

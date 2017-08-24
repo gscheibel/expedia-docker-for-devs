@@ -10,12 +10,12 @@ endif::full-version[]
 
 === How does it work?
 
-In the previous lessons, we seen how to build images based on a declarative file `Dockerfile`.
+In the previous lessons, we have seen how to build images based on a declarative file `Dockerfile`.
 When comes the time to run container, we know we can use `docker run`.
-Which means if we need to start several containers we have to run several times the correct run command and be sure there is no conflict such as port binding on the host.
+Which means if we need to start several containers, we have to run several valid run commands and ensure there are no conflicts between any of the containers (i.e. mapping to the same port).
 
-Docker-compose is a tool created to simplify how to define and run multi-containers applications.
-A multi-containers applications could a service and its database or several time the same application behind a reverse proxy.
+Docker-compose is a tool created to simplify how to define and run multi-container applications.
+A multi-container application could provide a service and its database or host several copies of the same application behind a reverse proxy.
 
 The same the Dockerfile is used to declare how to build the image, the `docker-compose.yml` is going to be used to declare how to run it
 
@@ -79,10 +79,10 @@ include::solutions.adoc[tags=dockerComposeRun]
 
 ==== Build, up and running
 
-The same way `docker build` allow us to create an image from a dockerfile.
+The same way `docker build` allows us to create a single image from a dockerfile.
 We can build several containers with a docker-compose file.
 
-How to? You ask.
+"How?", you ask.
 Just add the `build` property as part of your service declaration.
 
 The `build` property has 2 flavors:
@@ -91,16 +91,16 @@ The `build` property has 2 flavors:
 * It can be an object with 3 possible sub properties:
 ** `context` being the same as the one mentioned above.
 ** `dockerfile` being the name of the file to build
-** `args` being the list of arguments of pass to the build process (same as `--build-arg` for `docker build`)
+** `args` being the list of arguments to pass to the build process (same as `--build-arg` for `docker build`)
 
-NOTE: If the image doesn't exist Compose will try to pull it from the registry unless there is a build property.
+NOTE: If the image doesn't exist, Compose will try to pull it from the registry unless there is a build property.
 
 .Exercise
 Let's add a build section to our docker-compose file.
 
 .Expected output
-If you already have the image in your local repository nothing should have change.
-Otherwise you should notice the engine output the build steps.
+If you already have the image in your local repository nothing should have changed.
+Otherwise you should notice the engine outputs the build steps.
 
 In the console you should notice something that looks like:
 
@@ -169,7 +169,7 @@ volumes: <1>
 ----
 
 <1> The `volumes` section describes the shared volumes
-<2> The simplest case is to mount a local volumes (look at `docker volume ls` and `docker volume inspect` for more details)
-<3> The first part of the mappings the name for the shared volume followed by exposed path.
+<2> The simplest case is to mount a local volume (look at `docker volume ls` and `docker volume inspect` for more details)
+<3> The first part of the mapping is the name for the shared volume followed by exposed path.
 
 NOTE: There are several syntaxes that can be used for the volume mapping see: https://docs.docker.com/compose/compose-file/#volumes-volumedriver[]

@@ -10,7 +10,7 @@ endif::full-version[]
 
 === Not that isolated
 
-When you want to build an image to support a application lifecycle
+When you want to build an image to support an application's lifecycle
 
 If you have two containers, one running a service on *port 8080* and the other one wants to access it.
 As we said, the first container doesn't expose any port by default, but we can easily solve this issue by adding the *EXPOSE* instruction to our _Dockerfile_.
@@ -21,7 +21,7 @@ When you have an application like a web server running in a container, you may w
 
 Traditionally, http servers listen on port 80, 443 (or 8080 and 8433).
 But what would happen if 2 container were running the same http server?
-If you try to run 2 nginx servers locally, the second run will fail showing a "port already bind" error.
+If you try to run 2 nginx servers locally, the second run will fail showing a "port already binded" error.
 
 For container, the concept of port mapping help to define which port from the host will be to communicate with the exposed port of the container.
 
@@ -53,7 +53,7 @@ Last-Modified: Tue, 14 Feb 2017 15:36:04 GMT
 Server: nginx/1.11.10
 ----
 
-NOTE: Use `-d` to run the container in background
+NOTE: Use `-d` to run the container in background (to daemonize it).
 
 include::solutions.adoc[tags=exposedPort]
 
@@ -103,9 +103,9 @@ So far our images are very static.
 When we start a nginx, it serves the default content available when it has been installed.
 Wouldn't be interesting to copy an html file into our nginx and so we have a custom webapp running every time when run a container?
 
-As you can image it's possible via a new instruction https://docs.docker.com/engine/reference/builder/#/copy[COPY].
+As you can imagine it's possible via a new instruction https://docs.docker.com/engine/reference/builder/#/copy[COPY].
 
-The `COPY` instruction is very simple and copy the source files or directories and place them into the destination folder.
+The `COPY` instruction is very simple and copies the source files or directories and places them into the destination folder.
 
 The syntax is the following `COPY <src>... <dest>`.
 

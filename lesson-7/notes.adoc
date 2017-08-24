@@ -14,7 +14,7 @@ The last part of our journey is going to be about deployment.
 As we know, containers are an interesting solution to run an application but when comes the time to go to production we have to think about resiliency, monitoring etc.
 In this lesson we going to talk specifically 2 cluster management solutions: *Mesos/Marathon* and *Amazon ECS*.
 
-The goal is to deploy manually our application in both of these solutions.
+The goal is to deploy our application manually in both of these solutions.
 Even if in _real life_ we would automate the deployment processes using each solution's API (like what Primer is doing for EWE).
 
 NOTE: There are several other solutions like Kubernetes but we won't have the time work with them.
@@ -51,9 +51,9 @@ You should be able to access https://marathon.stockyard.karmalab.net/ui/#/apps[M
 image::marathon-UI.png[align=center]
 
 From this interface we are going to configure our awesome application.
-At this stage an application represents a long-running service, of which there would be many instances running on multiple hosts.
+At this stage, an application represents a long-running service, of which there would be many instances running on multiple hosts.
 
-Applications can be grouped to facilitate the maintenance.
+Applications can be grouped to facilitate maintenance.
 And we are going to use the https://marathon.stockyard.karmalab.net/ui/#/group/%2Fcode-academy-docker4devs[code-academy-docker4devs group] for this lesson.
 
 The next step is to create an application.
@@ -69,12 +69,12 @@ For the ID (the name of our application), are going to follow this pattern `/cod
 
 For example as my application is simply named `nginx`, the ID will then `/code-academy-docker4devs/gscheibel-nginx`.
 
-Under the `Docker container` section we are going to provide 2 information:
+Under the `Docker container` section we are going to provide 2 pieces of information:
 
 - Image: the full name of your image (including tag if needed), as you would use for a `docker pull` command (in my case `{nginx-image}`)
 - Network: Select bridge to facilitate port mapping
 
-For the port mapping section, as we have selected a `Bridge` strategy all we have to do is to provide the ports exposed by the container and Marathon will then assign a host port.
+For the port mapping section, as we have selected a `Bridge` strategy, all we have to do is to provide the ports exposed by the container and Marathon will then assign a host port.
 Following the example, my `nginx` container is listening (and exposing) its port 80 so the configuration will simply be:
 
 image::port-exposing.png[align=center]
@@ -84,7 +84,7 @@ For example, I know if send an HTTP request to my application targeting `/` (roo
 Go to the `Health Check` section to add this capability.
 It's important when you want Marathon to auto scale your application.
 
-Everything seem to be OK, then image:create-app.png[]
+Everything seems to be OK, then image:create-app.png[]
 
 After some time, your application should be marked as `Running`.
 If you have added an health check, it will mark it (normally) as `healthy`.
@@ -110,7 +110,7 @@ You can click on the endpoint to access your application directly.
 
 NOTE: By default the endpoint link uses HTTPS, don't forget to change it if your application only supports HTTP.
 
-If everything correctly we can expect:
+If everything is correct we can expect to see:
 
 image::it-works.png[align=center]
 
@@ -126,15 +126,15 @@ In a nutshell ECS is
 Amazon EC2 Container Service (ECS) is a highly scalable, high performance container management service that supports Docker containers and allows you to easily run applications on a managed cluster of Amazon EC2 instances.
 
 For this course we are going to focus on deploying 1 container in ECS.
-To do that the first step is to log into the https://aws-sso.tools.expedia.com[AWS console] with your SEA credentials.
+To do that, the first step is to log into the https://aws-sso.tools.expedia.com[AWS console] with your SEA credentials.
 Then select the `EWEDEV_Admins` account.
 
-As you can imaging we are going to focus only on the ECS part of AWS.
+As you can imagine, we are going to focus only on the ECS part of AWS.
 And to dive into it, let's go to the ECS console by selecting the ECS service in the search bar:
 
 image::ecs-portal.png[align=center]
 
-Once in the ECS page, you should be able to see a list of ECS cluster (group of EC2 instances used to deploy containers).
+Once on the ECS page, you should be able to see a list of ECS cluster (group of EC2 instances used to deploy containers).
 Today we will be using `{cluster-name}`.
 
 But before looking deeper into the cluster, let's have a look at another concept called `Task`.
@@ -154,14 +154,14 @@ In our case our task definition will have the following characteristics:
 
 Then add a container, which would look like:
 
-* Container name: whatever you want to
+* Container name: whatever you want
 * Image: the complete name as you would use to perform a `docker pull` (eg: `gscheibel/expedia-docker-for-devs:nginx`)
 * Memory limit: 128MB would be enough
 * Port mapping:
 ** Host: something between 49201 and 49300
 ** Container: the port exposed by your application (like 80 for a default HTTP routing)
 
-That would be enough even if we could easily add more informations with environment variable, labels etc.
+That would be enough even though we could easily add more information with environment variables, labels etc.
 
 Once the container has been added, your Task definition should look like:
 
@@ -178,7 +178,7 @@ Select the {cluster-name} cluster leave the rest as is.
 
 image::run-task.png[align=center]
 
-And after a bit of time the task should be `RUNNING`
+And after some time the task should be `RUNNING`
 
 image::task-running.png[align=center]
 
@@ -206,4 +206,4 @@ $ curl ec2-54-202-95-72.us-west-2.compute.amazonaws.com:49200/expedia.html
 </html>
 ----
 
-NOTE: The office network restriction blocks most of the request on "non-standard" port, if it doesn't work re-try while being connected to the corporate VPN.
+NOTE: The office network restriction blocks most of the request on the "non-standard" port, if it doesn't work re-try while being connected to the corporate VPN.
