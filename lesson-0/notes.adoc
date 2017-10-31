@@ -37,7 +37,7 @@ From a new terminal, you should be able to run the following commands:
 [source]
 docker --version
 
-And have something similar to `Docker version 1.12.5, build 7392c3b` as output.
+And have something similar to `Docker version 17.06.2-ce, build cec0b72` as output.
 
 TIP: You can easily install Docker command completion by following https://docs.docker.com/compose/completion/#/bash[these] steps
 

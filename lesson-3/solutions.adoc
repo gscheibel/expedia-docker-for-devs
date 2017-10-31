@@ -33,7 +33,10 @@ ifdef::solutions[]
 
 First the Dockerfile should look like:
 
+[source]
+--
 include::dockerfiles/sharedVolume[]
+--
 
 After having built the image under the tag `docker4devs:volumes` (for instance).
 We can run it with:

@@ -29,7 +29,7 @@ A _volume_ is a special kind of directory that provides several useful features:
 === Volumes Sharing
 
 As we know, when we write on the filesystem, we actually write on a temporary layer which is not persistent across all the containers.
-To be able to share files with the outside world, we can mount an external Volume and attach it to around(?) container.
+To be able to share files with the outside world, we can mount an external Volume and attach it to a container.
 
 A volume can be a simple file or a directory which is mounted when the container is run.
 
@@ -76,10 +76,11 @@ But how can we share file between containers?
 
 ===== Exposing volumes
 First, the container has to expose the volumes to share.
-This operation is possible via the https://docs.docker.com/engine/reference/builder/#/volume[VOLUME] instruction in the Dockerfile.
+This operation is possible via the https://docs.docker.com/engine/reference/builder/#volume[VOLUME] instruction in the Dockerfile.
 
 Let's take the following Dockerfile:
 
+[source]
 include::dockerfiles/sharedVolume[lines=1..4]
 
 To expose `/opt/logs`, we can use the `VOLUME` instruction.
@@ -87,6 +88,7 @@ The syntax is either `VOLUME ["folder1", "folder2"]` or `VOLUME folder1 folder2`
 
 Which gives in our case:
 
+[source]
 include::dockerfiles/sharedVolume[]
 
 ===== Sharing
