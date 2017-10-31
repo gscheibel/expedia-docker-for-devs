@@ -1,0 +1,29 @@
+# tag::dockerComposeRun[]
+////
+How to run a container with `docker-compose up`
+////
+ifdef::solutions[]
+.Solution
+
+[source]
+----
+include::dockerfiles/docker-compose-run.yml[]
+----
+
+endif::solutions[]
+# end::dockerComposeRun[]
+
+# tag::dockerComposeBuild[]
+////
+How to run a container with `docker-compose up`
+////
+ifdef::solutions[]
+.Solution
+
+[source]
+----
+include::dockerfiles/docker-compose.yml[]
+----
+
+endif::solutions[]
+# end::dockerComposeBuild[]
