@@ -1,29 +1,32 @@
-# tag::dockerComposeRun[]
+# tag::subnetwork[]
 ////
-How to run a container with `docker-compose up`
-////
-ifdef::solutions[]
-.Solution
-
-[source]
-----
-include::dockerfiles/docker-compose-run.yml[]
-----
-
-endif::solutions[]
-# end::dockerComposeRun[]
-
-# tag::dockerComposeBuild[]
-////
-How to run a container with `docker-compose up`
+Cross container communication
 ////
 ifdef::solutions[]
 .Solution
+[source]
+.In the host
+----
+$ docker network create d4d-network
+$ docker run -d --name=webapp --network=d4d-network nginx
+$ docker run -it --name=curl --network=d4d-network gscheibel/docker4devs:curl
+----
 
 [source]
+.In the curl container
 ----
-include::dockerfiles/docker-compose.yml[]
+$ curl -I webapp:80
+
+HTTP/1.1 200 OK
+Server: nginx/1.13.5
+Date: Tue, 31 Oct 2017 13:39:35 GMT
+Content-Type: text/html
+Content-Length: 612
+Last-Modified: Tue, 08 Aug 2017 15:25:00 GMT
+Connection: keep-alive
+ETag: "5989d7cc-264"
+Accept-Ranges: bytes
 ----
 
 endif::solutions[]
-# end::dockerComposeBuild[]
+# end::subnetwork[]

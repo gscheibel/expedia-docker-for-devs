@@ -6,170 +6,102 @@ include::../headers.adoc[]
 toc::[]
 endif::full-version[]
 
-== Lesson 5: Docker-compose or how to be even more declarative and automated.
+== Lesson 5: When several containers talk to each other.
 
-=== How does it work?
+=== External network
 
-In the previous lessons, we have seen how to build images based on a declarative file `Dockerfile`.
-When comes the time to run container, we know we can use `docker run`.
-Which means if we need to start several containers, we have to run several valid run commands and ensure there are no conflicts between any of the containers (i.e. mapping to the same port).
+==== Direct communication
 
-Docker-compose is a tool created to simplify how to define and run multi-container applications.
-A multi-container application could provide a service and its database or host several copies of the same application behind a reverse proxy.
+How to make 2 containers talking to each other via the network?
+Which IP address to use? `127.0.0.1`? `random.random.random.random`?
 
-The same the Dockerfile is used to declare how to build the image, the `docker-compose.yml` is going to be used to declare how to run it
+.Let's use a case of study:
 
-Docker-compose is based on a yml file named by default `docker-compose.yml`.
-The file defines services, network and volumes configurations.
+First, run a simple nginx container with `docker run -d --name webapp nginx`.
 
-The file is structured as:
+Then run, with the `-it` param, a `gscheibel/docker4devs:curl` container (which is simply a glorified Debian with curl installed).
 
-[source]
+.How to ping the nginx container from the curl one?
+
+By default, the docker engine manages a `bridge` network which is accessible from all the containers.
+Try to inspect the `webapp` container using `docker inspect webapp`.
+
+At the end, you should be able to see the network configurations for this container.
+
+:ipaddress: 172.17.0.4
+[source, json, subs="attributes"]
 ----
-version: '3.0' <1>
-
-services: <2>
-  my-first-service: <3>
-    <place holder for directives>
-----
-
-<1> The version refers to the compose file reference version, here 3.0 being the latest one
-<2> `services:` indicates the section reserved for the configurations which will be applied to containers
-<3> The name of the service, you can have several of them (each name must be unique).
-
-NOTE: As the file is yaml (or yml) based, the indentation is important.
-
-
-=== Up and running
-
-:imageName: docker4devs:nginx
-During the previous lesson, we created our own custom nginx image `{imageName}`.
-To run a container from this image, the command would look like `docker run -p 8080:80 {imageName}`.
-
-With docker-compose, we can declare how to run our nginx service.
-As part of the service description we have then to specify the `image: {imageName}`.
-For the port mappings, as we can have several values reflecting `8080:80` and `8443:443` for instance, we have to use a yaml list:
-
-[source]
-----
-ports:
-  - <host_port_1>:<container_port_1>
-  - <host_port_2>:<container_port_2>
+{
+  "Networks": {
+      "bridge": {
+          "IPAMConfig": null,
+          "Links": null,
+          "Aliases": null,
+          "NetworkID": "ade9ac6b5007c77445544784f05f423d446e764c840c8355221547981c9cd6c3",
+          "EndpointID": "5307c8dab802788a78e3fba5d82c8480360bd6a125ac95690c8fcb15773bcf3f",
+          "Gateway": "172.17.0.1",
+          "IPAddress": "{ipaddress}", <!--1-->
+          "IPPrefixLen": 16,
+          "IPv6Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "MacAddress": "02:42:ac:11:00:04",
+          "DriverOpts": null
+      }
+  }
+}
 ----
 
-NOTE: You can apply the same principle with `volumes` instead of `ports` in order to mount volumes at runtime.
+<1> The `IPAddress` field gives you the IP address to use to connect to this container.
 
-To run our service, all we need is the `docker-compose up` command.
+Now we have the ip address, go to your `docker4devs:curl` container and try:
 
-.Exercise
-Create a docker-compose file which describes how to run the nginx service and then run it.
+[source, subs="attributes"]
+$ curl -I {ipaddress}
 
 .Expected output
-Docker-compose should display:
 
 [source]
 ----
-Recreating dockerfiles_nginx_1
-Attaching to dockerfiles_nginx_1
+HTTP/1.1 200 OK
+Server: nginx/1.13.5
+Date: Tue, 31 Oct 2017 13:17:40 GMT
+Content-Type: text/html
+Content-Length: 612
+Last-Modified: Tue, 08 Aug 2017 15:25:00 GMT
+Connection: keep-alive
+ETag: "5989d7cc-264"
+Accept-Ranges: bytes
 ----
 
-Of course, you can then access your application as usual.
+==== Specific network
 
-include::solutions.adoc[tags=dockerComposeRun]
+Knowing each container's IP address is cumbersome and doesn't isolate much (inside of a same host).
+To mitigate this situation, the engine provides the https://docs.docker.com/engine/reference/commandline/network/[`network` command].
 
-==== Build, up and running
+The idea is to create a subnetwork (bridge by default) which  will be shared by several containers.
+Unlike the default bridge, container within a subnetwork can be accessed by their name.
 
-The same way `docker build` allows us to create a single image from a dockerfile.
-We can build several containers with a docker-compose file.
-
-"How?", you ask.
-Just add the `build` property as part of your service declaration.
-
-The `build` property has 2 flavors:
-
-* It can follow by the path of the build context. Either a path to a directory containing a Dockerfile, or a url to a git repository eg: `build: ./path/context`
-* It can be an object with 3 possible sub properties:
-** `context` being the same as the one mentioned above.
-** `dockerfile` being the name of the file to build
-** `args` being the list of arguments to pass to the build process (same as `--build-arg` for `docker build`)
-
-NOTE: If the image doesn't exist, Compose will try to pull it from the registry unless there is a build property.
+To associate a subnetwork a container (at creation time), the `--network=[NAME]` parameter of the `docker run` command can be used.
 
 .Exercise
-Let's add a build section to our docker-compose file.
 
-.Expected output
-If you already have the image in your local repository nothing should have changed.
-Otherwise you should notice the engine outputs the build steps.
+Create a subnetwork named `d4d-network`.
+Start a new nginx container named `webapp` and associate it to the `d4d-network` subnetwork.
+Finally do the same with a `curl` container.
 
-In the console you should notice something that looks like:
-
-[source]
-----
-Building nginx
-Step 1/7 : FROM debian
- ---> e5599115b6a6
-Step 2/7 : RUN apt-get update &&     apt-get install -y nginx
- ---> Using cache
- ---> 29b60d8c2beb
-Step 3/7 : ENV HTMLDIR /var/www/html/
- ---> Running in 769da3d1b849
- ---> 366d5305a08a
-Removing intermediate container 769da3d1b849
-Step 4/7 : WORKDIR $HTMLDIR
- ---> 2ecde3ed7bcf
-Removing intermediate container 5ebf6cf8ed85
-Step 5/7 : COPY expedia.html ./
- ---> ed562e05ce97
-Removing intermediate container 05e3ca33efbc
-Step 6/7 : CMD nginx -g 'daemon off;'
- ---> Running in f404d75b7141
- ---> 9fced2a27d87
-Removing intermediate container f404d75b7141
-Step 7/7 : EXPOSE 80
- ---> Running in f59b35089c54
- ---> 8ab7a0abc31f
-Removing intermediate container f59b35089c54
-Successfully built 8ab7a0abc31f
-WARNING: Image for service nginx was built because it did not already exist. To rebuild this image you must use `docker-compose build` or `docker-compose up --build`.
-Recreating dockerfiles_nginx_1
-Attaching to dockerfiles_nginx_1
-----
-
-include::solutions.adoc[tags=dockerComposeBuild]
-
-TIP: If you want to rebuild each time, add the `--build` to the `docker-compose up` command.
-
-TIP: If you only want to build, use `docker-compose build`.
-
-=== More volumes sharing
-
-We've seen previously we can share volumes between containers with the `--volumes-from` argument.
-The same thing can be done with Compose.
-
-Let's look at the following example:
+Then in your `curl` container you should be able to run:
 
 [source]
-----
-version: '3.0'
+$ curl -I webapp
 
-services:
-  webapp:
-    image: docker4devs:webapp
-    volumes:
-      - shared-volume:/container/path <3>
+include::solutions.adoc[tags=subnetwork]
 
-  splunk-forwarder:
-    image: expedia-splunk-forwarder
-    volumes:
-      - shared-volume:/forwarder/path <3>
 
-volumes: <1>
-  shared-volume: <2>
-----
+=== Complex builder container
 
-<1> The `volumes` section describes the shared volumes
-<2> The simplest case is to mount a local volume (look at `docker volume ls` and `docker volume inspect` for more details)
-<3> The first part of the mapping is the name for the shared volume followed by exposed path.
+==== Triggering actions on a child image at build time
 
-NOTE: There are several syntaxes that can be used for the volume mapping see: https://docs.docker.com/compose/compose-file/#volumes-volumedriver[]
+==== The builder/run pattern
+
+==== Multistage build
