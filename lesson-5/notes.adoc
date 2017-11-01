@@ -175,19 +175,19 @@ And finally, you build your `runner` image which will copy the produced binary.
 
 In terms of Dockerfile you have:
 
-[source]
+[source, subs="attributes, verbatim"]
 .The builder image
 ----
 include::examples/old-builder/dockerfile.build[]
 ----
 
-[source]
+[source, subs="attributes, verbatim"]
 .The runner image
 ----
 include::examples/old-builder/dockerfile.run[]
 ----
 
-[source]
+[source, subs="attributes, verbatim"]
 .The script
 ----
 include::examples/old-builder/build.sh[]
