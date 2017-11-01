@@ -29,7 +29,7 @@ Try to inspect the `webapp` container using `docker inspect webapp`.
 At the end, you should be able to see the network configurations for this container.
 
 :ipaddress: 172.17.0.4
-[source,json,subs="attributes, verbatim"]
+[source,json,subs="normal"]
 ----
 {
   "Networks": {
@@ -123,7 +123,7 @@ The instruction will be executed in the context of a downstream build.
 For example, you have a an image `{builder}` declared as:
 
 :onbuild: RUN echo "Hello world"
-[source, subs="attributes"]
+[source, subs="normal"]
 ----
 FROM debian
 
@@ -134,7 +134,7 @@ ONBUILD  {onbuild} <1>
 
 When the engine builds the following image:
 
-[source]
+[source, subs="attributes"]
 FROM  {builder}
 
 All the `ONBUILD` instructions are being executed *first* and in this example the output would be:
@@ -175,19 +175,19 @@ And finally, you build your `runner` image which will copy the produced binary.
 
 In terms of Dockerfile you have:
 
-[source, subs="attributes, verbatim"]
+[source, subs="normal"]
 .The builder image
 ----
 include::examples/old-builder/dockerfile.build[]
 ----
 
-[source, subs="attributes, verbatim"]
+[source, subs="normal"]
 .The runner image
 ----
 include::examples/old-builder/dockerfile.run[]
 ----
 
-[source, subs="attributes, verbatim"]
+[source, subs="normal"]
 .The script
 ----
 include::examples/old-builder/build.sh[]
