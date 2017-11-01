@@ -2,7 +2,6 @@
 
 echo Building application
 
-export FILE=hello
 docker build -f dockerfile.build -t docker4devs:builder .
 
 docker create --name builder docker4devs:builder

@@ -29,7 +29,7 @@ Try to inspect the `webapp` container using `docker inspect webapp`.
 At the end, you should be able to see the network configurations for this container.
 
 :ipaddress: 172.17.0.4
-[source, json, subs="attributes"]
+[source,json,subs="attributes, verbatim"]
 ----
 {
   "Networks": {
@@ -40,7 +40,7 @@ At the end, you should be able to see the network configurations for this contai
           "NetworkID": "ade9ac6b5007c77445544784f05f423d446e764c840c8355221547981c9cd6c3",
           "EndpointID": "5307c8dab802788a78e3fba5d82c8480360bd6a125ac95690c8fcb15773bcf3f",
           "Gateway": "172.17.0.1",
-          "IPAddress": "{ipaddress}", <!--1-->
+          "IPAddress": "{ipaddress}", <1>
           "IPPrefixLen": 16,
           "IPv6Gateway": "",
           "GlobalIPv6Address": "",
@@ -92,16 +92,99 @@ Finally do the same with a `curl` container.
 
 Then in your `curl` container you should be able to run:
 
+.Expected result
 [source]
-$ curl -I webapp
+.In the curl container
+----
+$ curl -I webapp:80
+
+HTTP/1.1 200 OK
+Server: nginx/1.13.5
+Date: Tue, 31 Oct 2017 13:39:35 GMT
+Content-Type: text/html
+Content-Length: 612
+Last-Modified: Tue, 08 Aug 2017 15:25:00 GMT
+Connection: keep-alive
+ETag: "5989d7cc-264"
+Accept-Ranges: bytes
+----
 
 include::solutions.adoc[tags=subnetwork]
-
 
 === Complex builder container
 
 ==== Triggering actions on a child image at build time
 
-==== The builder/run pattern
+:builder: d4d:builder
 
-==== Multistage build
+The https://docs.docker.com/engine/reference/builder/#onbuild[ONBUILD] instruction provides a way to defer the execution of some instructions.
+The instruction will be executed in the context of a downstream build.
+
+For example, you have a an image `{builder}` declared as:
+
+:onbuild: RUN echo "Hello world"
+[source, subs="attributes"]
+----
+FROM debian
+
+ONBUILD  {onbuild} <1>
+----
+
+<1> The `{onbuild}` instruction is executed only when the below image is built.
+
+When the engine builds the following image:
+
+[source]
+FROM  {builder}
+
+All the `ONBUILD` instructions are being executed *first* and in this example the output would be:
+
+[source, subs="attributes"]
+----
+$ docker build -f child .
+
+Sending build context to Docker daemon  3.072kB
+Step 1/1 : FROM {builder}
+# Executing 1 build trigger...
+Step 1/1 : RUN echo "Hello world"
+ ---> Running in f7e5885bd628
+Hello world <1>
+ ---> 1cee673766ae
+Removing intermediate container f7e5885bd628
+Successfully built 1cee673766ae
+----
+
+<1> The result of the `ONBUILD` instruction set in {builder}
+
+==== Build and run with containers
+
+What if my build environment doesn't support the language / environment my application is build on top of?
+
+For example, you want your new Go application to be built by your CI pipeline.
+But you don't necessarily want to install the Go environment in each of your Jenkins slaves.
+
+One of the solution is to build your binary in a container.
+Then you can run your application in another container.
+
+===== 2 containers + 1 script = old way
+
+The first approach is (was) to build a first image named `builder` to produce the binary.
+Then you have to create a container which you will extract the binary from.
+
+And finally, you build your `runner` image which will copy the produced binary.
+
+In terms of Dockerfile you have:
+
+[source]
+.The builder image
+include::old-builder/dockerfile.build[]
+
+[source]
+.The runner image
+include::old-builder/dockerfile.run[]
+
+[source]
+.The script
+include::old-builder/build.sh[]
+
+===== Multistage build
