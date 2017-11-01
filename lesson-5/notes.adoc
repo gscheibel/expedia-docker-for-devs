@@ -194,3 +194,16 @@ include::examples/old-builder/build.sh[]
 ----
 
 ===== Multistage build
+
+In order to simply this kind of use case, Docker created multistage build.
+
+The idea is to declare several images and their interactions in the same Dockerfile.
+
+The engine will create all the described images and will remove the intermediate ones at the end.
+
+Let's look at an example:
+
+[source, subs="normal"]
+----
+include::examples/multistage/Dockerfile[]
+----
