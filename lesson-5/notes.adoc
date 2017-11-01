@@ -199,7 +199,7 @@ In order to simply this kind of use case, Docker created multistage build.
 
 The idea is to declare several images and their interactions in the same Dockerfile.
 
-The engine will create all the described images and will remove the intermediate ones at the end.
+The engine will create all the described images and will remove the intermediate ones at the end.git ad
 
 Let's look at an example:
 
