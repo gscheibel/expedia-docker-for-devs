@@ -177,14 +177,14 @@ In terms of Dockerfile you have:
 
 [source]
 .The builder image
-include::old-builder/dockerfile.build[]
+include::examples/old-builder/dockerfile.build[]
 
 [source]
 .The runner image
-include::old-builder/dockerfile.run[]
+include::examples/old-builder/dockerfile.run[]
 
 [source]
 .The script
-include::old-builder/build.sh[]
+include::examples/old-builder/build.sh[]
 
 ===== Multistage build
