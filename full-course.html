@@ -1,0 +1,2945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.4">
+<meta name="author" content="Guillaume Scheibel&lt;gscheibel@expedia.com&gt;">
+<title>Code Academy: Docker for developers</title>
+<style>
+/*! normalize.css v2.1.2 | MIT License | git.io/normalize */
+/* ========================================================================== HTML5 display definitions ========================================================================== */
+/** Correct `block` display not defined in IE 8/9. */
+article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary { display: block; }
+
+/** Correct `inline-block` display not defined in IE 8/9. */
+audio, canvas, video { display: inline-block; }
+
+/** Prevent modern browsers from displaying `audio` without controls. Remove excess height in iOS 5 devices. */
+audio:not([controls]) { display: none; height: 0; }
+
+/** Address `[hidden]` styling not present in IE 8/9. Hide the `template` element in IE, Safari, and Firefox < 22. */
+[hidden], template { display: none; }
+
+script { display: none !important; }
+
+/* ========================================================================== Base ========================================================================== */
+/** 1. Set default font family to sans-serif. 2. Prevent iOS text size adjust after orientation change, without disabling user zoom. */
+html { font-family: sans-serif; /* 1 */ -ms-text-size-adjust: 100%; /* 2 */ -webkit-text-size-adjust: 100%; /* 2 */ }
+
+/** Remove default margin. */
+body { margin: 0; }
+
+/* ========================================================================== Links ========================================================================== */
+/** Remove the gray background color from active links in IE 10. */
+a { background: transparent; }
+
+/** Address `outline` inconsistency between Chrome and other browsers. */
+a:focus { outline: thin dotted; }
+
+/** Improve readability when focused and also mouse hovered in all browsers. */
+a:active, a:hover { outline: 0; }
+
+/* ========================================================================== Typography ========================================================================== */
+/** Address variable `h1` font-size and margin within `section` and `article` contexts in Firefox 4+, Safari 5, and Chrome. */
+h1 { font-size: 2em; margin: 0.67em 0; }
+
+/** Address styling not present in IE 8/9, Safari 5, and Chrome. */
+abbr[title] { border-bottom: 1px dotted; }
+
+/** Address style set to `bolder` in Firefox 4+, Safari 5, and Chrome. */
+b, strong { font-weight: bold; }
+
+/** Address styling not present in Safari 5 and Chrome. */
+dfn { font-style: italic; }
+
+/** Address differences between Firefox and other browsers. */
+hr { -moz-box-sizing: content-box; box-sizing: content-box; height: 0; }
+
+/** Address styling not present in IE 8/9. */
+mark { background: #ff0; color: #000; }
+
+/** Correct font family set oddly in Safari 5 and Chrome. */
+code, kbd, pre, samp { font-family: monospace, serif; font-size: 1em; }
+
+/** Improve readability of pre-formatted text in all browsers. */
+pre { white-space: pre-wrap; }
+
+/** Set consistent quote types. */
+q { quotes: "\201C" "\201D" "\2018" "\2019"; }
+
+/** Address inconsistent and variable font size in all browsers. */
+small { font-size: 80%; }
+
+/** Prevent `sub` and `sup` affecting `line-height` in all browsers. */
+sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; }
+
+sup { top: -0.5em; }
+
+sub { bottom: -0.25em; }
+
+/* ========================================================================== Embedded content ========================================================================== */
+/** Remove border when inside `a` element in IE 8/9. */
+img { border: 0; }
+
+/** Correct overflow displayed oddly in IE 9. */
+svg:not(:root) { overflow: hidden; }
+
+/* ========================================================================== Figures ========================================================================== */
+/** Address margin not present in IE 8/9 and Safari 5. */
+figure { margin: 0; }
+
+/* ========================================================================== Forms ========================================================================== */
+/** Define consistent border, margin, and padding. */
+fieldset { border: 1px solid #c0c0c0; margin: 0 2px; padding: 0.35em 0.625em 0.75em; }
+
+/** 1. Correct `color` not being inherited in IE 8/9. 2. Remove padding so people aren't caught out if they zero out fieldsets. */
+legend { border: 0; /* 1 */ padding: 0; /* 2 */ }
+
+/** 1. Correct font family not being inherited in all browsers. 2. Correct font size not being inherited in all browsers. 3. Address margins set differently in Firefox 4+, Safari 5, and Chrome. */
+button, input, select, textarea { font-family: inherit; /* 1 */ font-size: 100%; /* 2 */ margin: 0; /* 3 */ }
+
+/** Address Firefox 4+ setting `line-height` on `input` using `!important` in the UA stylesheet. */
+button, input { line-height: normal; }
+
+/** Address inconsistent `text-transform` inheritance for `button` and `select`. All other form control elements do not inherit `text-transform` values. Correct `button` style inheritance in Chrome, Safari 5+, and IE 8+. Correct `select` style inheritance in Firefox 4+ and Opera. */
+button, select { text-transform: none; }
+
+/** 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio` and `video` controls. 2. Correct inability to style clickable `input` types in iOS. 3. Improve usability and consistency of cursor style between image-type `input` and others. */
+button, html input[type="button"], input[type="reset"], input[type="submit"] { -webkit-appearance: button; /* 2 */ cursor: pointer; /* 3 */ }
+
+/** Re-set default cursor for disabled elements. */
+button[disabled], html input[disabled] { cursor: default; }
+
+/** 1. Address box sizing set to `content-box` in IE 8/9. 2. Remove excess padding in IE 8/9. */
+input[type="checkbox"], input[type="radio"] { box-sizing: border-box; /* 1 */ padding: 0; /* 2 */ }
+
+/** 1. Address `appearance` set to `searchfield` in Safari 5 and Chrome. 2. Address `box-sizing` set to `border-box` in Safari 5 and Chrome (include `-moz` to future-proof). */
+input[type="search"] { -webkit-appearance: textfield; /* 1 */ -moz-box-sizing: content-box; -webkit-box-sizing: content-box; /* 2 */ box-sizing: content-box; }
+
+/** Remove inner padding and search cancel button in Safari 5 and Chrome on OS X. */
+input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration { -webkit-appearance: none; }
+
+/** Remove inner padding and border in Firefox 4+. */
+button::-moz-focus-inner, input::-moz-focus-inner { border: 0; padding: 0; }
+
+/** 1. Remove default vertical scrollbar in IE 8/9. 2. Improve readability and alignment in all browsers. */
+textarea { overflow: auto; /* 1 */ vertical-align: top; /* 2 */ }
+
+/* ========================================================================== Tables ========================================================================== */
+/** Remove most spacing between table cells. */
+table { border-collapse: collapse; border-spacing: 0; }
+
+meta.foundation-mq-small { font-family: "only screen and (min-width: 768px)"; width: 768px; }
+
+meta.foundation-mq-medium { font-family: "only screen and (min-width:1280px)"; width: 1280px; }
+
+meta.foundation-mq-large { font-family: "only screen and (min-width:1440px)"; width: 1440px; }
+
+*, *:before, *:after { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+
+html, body { font-size: 100%; }
+
+body { background: white; color: rgba(0, 0, 0, 0.8); padding: 0; margin: 0; font-family: "Noto Serif", "DejaVu Serif", serif; font-weight: normal; font-style: normal; line-height: 1; position: relative; cursor: auto; }
+
+a:hover { cursor: pointer; }
+
+img, object, embed { max-width: 100%; height: auto; }
+
+object, embed { height: 100%; }
+
+img { -ms-interpolation-mode: bicubic; }
+
+#map_canvas img, #map_canvas embed, #map_canvas object, .map_canvas img, .map_canvas embed, .map_canvas object { max-width: none !important; }
+
+.left { float: left !important; }
+
+.right { float: right !important; }
+
+.text-left { text-align: left !important; }
+
+.text-right { text-align: right !important; }
+
+.text-center { text-align: center !important; }
+
+.text-justify { text-align: justify !important; }
+
+.hide { display: none; }
+
+.antialiased { -webkit-font-smoothing: antialiased; }
+
+img { display: inline-block; vertical-align: middle; }
+
+textarea { height: auto; min-height: 50px; }
+
+select { width: 100%; }
+
+object, svg { display: inline-block; vertical-align: middle; }
+
+.center { margin-left: auto; margin-right: auto; }
+
+.spread { width: 100%; }
+
+p.lead, .paragraph.lead > p, #preamble > .sectionbody > .paragraph:first-of-type p { font-size: 1.21875em; line-height: 1.6; }
+
+.subheader, .admonitionblock td.content > .title, .audioblock > .title, .exampleblock > .title, .imageblock > .title, .listingblock > .title, .literalblock > .title, .stemblock > .title, .openblock > .title, .paragraph > .title, .quoteblock > .title, table.tableblock > .title, .verseblock > .title, .videoblock > .title, .dlist > .title, .olist > .title, .ulist > .title, .qlist > .title, .hdlist > .title { line-height: 1.45; color: #003b6c; font-weight: normal; margin-top: 0; margin-bottom: 0.25em; }
+
+/* Typography resets */
+div, dl, dt, dd, ul, ol, li, h1, h2, h3, #toctitle, .sidebarblock > .content > .title, h4, h5, h6, pre, form, p, blockquote, th, td { margin: 0; padding: 0; direction: ltr; }
+
+/* Default Link Styles */
+a { color: #2156a5; text-decoration: underline; line-height: inherit; }
+a:hover, a:focus { color: #1d4b8f; }
+a img { border: none; }
+
+/* Default paragraph styles */
+p { font-family: inherit; font-weight: normal; font-size: 1em; line-height: 1.6; margin-bottom: 1.25em; text-rendering: optimizeLegibility; }
+p aside { font-size: 0.875em; line-height: 1.35; font-style: italic; }
+
+/* Default header styles */
+h1, h2, h3, #toctitle, .sidebarblock > .content > .title, h4, h5, h6 { font-family: "Open Sans", "DejaVu Sans", sans-serif; font-weight: 300; font-style: normal; color: #0065b8; text-rendering: optimizeLegibility; margin-top: 1em; margin-bottom: 0.5em; line-height: 1.0125em; }
+h1 small, h2 small, h3 small, #toctitle small, .sidebarblock > .content > .title small, h4 small, h5 small, h6 small { font-size: 60%; color: #52b1ff; line-height: 0; }
+
+h1 { font-size: 2.125em; }
+
+h2 { font-size: 1.6875em; }
+
+h3, #toctitle, .sidebarblock > .content > .title { font-size: 1.375em; }
+
+h4 { font-size: 1.125em; }
+
+h5 { font-size: 1.125em; }
+
+h6 { font-size: 1em; }
+
+hr { border: solid #ffcb00; border-width: 1px 0 0; clear: both; margin: 1.25em 0 1.1875em; height: 0; }
+
+/* Helpful Typography Defaults */
+em, i { font-style: italic; line-height: inherit; }
+
+strong, b { font-weight: bold; line-height: inherit; }
+
+small { font-size: 60%; line-height: inherit; }
+
+code { font-family: "Droid Sans Mono", "DejaVu Sans Mono", monospace; font-weight: normal; color: rgba(0, 0, 0, 0.9); }
+
+/* Lists */
+ul, ol, dl { font-size: 1em; line-height: 1.6; margin-bottom: 1.25em; list-style-position: outside; font-family: inherit; }
+
+ul, ol { margin-left: 1.5em; }
+ul.no-bullet, ol.no-bullet { margin-left: 1.5em; }
+
+/* Unordered Lists */
+ul li ul, ul li ol { margin-left: 1.25em; margin-bottom: 0; font-size: 1em; /* Override nested font-size change */ }
+ul.square li ul, ul.circle li ul, ul.disc li ul { list-style: inherit; }
+ul.square { list-style-type: square; }
+ul.circle { list-style-type: circle; }
+ul.disc { list-style-type: disc; }
+ul.no-bullet { list-style: none; }
+
+/* Ordered Lists */
+ol li ul, ol li ol { margin-left: 1.25em; margin-bottom: 0; }
+
+/* Definition Lists */
+dl dt { margin-bottom: 0.3125em; font-weight: bold; }
+dl dd { margin-bottom: 1.25em; }
+
+/* Abbreviations */
+abbr, acronym { text-transform: uppercase; font-size: 90%; color: rgba(0, 0, 0, 0.8); border-bottom: 1px dotted #dddddd; cursor: help; }
+
+abbr { text-transform: none; }
+
+/* Blockquotes */
+blockquote { margin: 0 0 1.25em; padding: 0.5625em 1.25em 0 1.1875em; border-left: 1px solid #dddddd; }
+blockquote cite { display: block; font-size: 0.9375em; color: rgba(0, 0, 0, 0.6); }
+blockquote cite:before { content: "\2014 \0020"; }
+blockquote cite a, blockquote cite a:visited { color: rgba(0, 0, 0, 0.6); }
+
+blockquote, blockquote p { line-height: 1.6; color: #00355f; }
+
+/* Microformats */
+.vcard { display: inline-block; margin: 0 0 1.25em 0; border: 1px solid #dddddd; padding: 0.625em 0.75em; }
+.vcard li { margin: 0; display: block; }
+.vcard .fn { font-weight: bold; font-size: 0.9375em; }
+
+.vevent .summary { font-weight: bold; }
+.vevent abbr { cursor: auto; text-decoration: none; font-weight: bold; border: none; padding: 0 0.0625em; }
+
+@media only screen and (min-width: 768px) { h1, h2, h3, #toctitle, .sidebarblock > .content > .title, h4, h5, h6 { line-height: 1.2; }
+  h1 { font-size: 2.75em; }
+  h2 { font-size: 2.3125em; }
+  h3, #toctitle, .sidebarblock > .content > .title { font-size: 1.6875em; }
+  h4 { font-size: 1.4375em; } }
+/* Tables */
+table { background: white; margin-bottom: 1.25em; border: solid 1px #dedede; }
+table thead, table tfoot { background: #f7f8f7; font-weight: bold; }
+table thead tr th, table thead tr td, table tfoot tr th, table tfoot tr td { padding: 0.5em 0.625em 0.625em; font-size: inherit; color: rgba(0, 0, 0, 0.8); text-align: left; }
+table tr th, table tr td { padding: 0.5625em 0.625em; font-size: inherit; color: rgba(0, 0, 0, 0.8); }
+table tr.even, table tr.alt, table tr:nth-of-type(even) { background: #f8f8f7; }
+table thead tr th, table tfoot tr th, table tbody tr td, table tr td, table tfoot tr td { display: table-cell; line-height: 1.6; }
+
+body { -moz-osx-font-smoothing: grayscale; -webkit-font-smoothing: antialiased; tab-size: 4; }
+
+h1, h2, h3, #toctitle, .sidebarblock > .content > .title, h4, h5, h6 { line-height: 1.2; word-spacing: -0.05em; }
+h1 strong, h2 strong, h3 strong, #toctitle strong, .sidebarblock > .content > .title strong, h4 strong, h5 strong, h6 strong { font-weight: 400; }
+
+.clearfix:before, .clearfix:after, .float-group:before, .float-group:after { content: " "; display: table; }
+.clearfix:after, .float-group:after { clear: both; }
+
+*:not(pre) > code { font-size: 0.9375em; font-style: normal !important; letter-spacing: 0; padding: 0.1em 0.5ex; word-spacing: -0.15em; background-color: #f7f7f8; -webkit-border-radius: 4px; border-radius: 4px; line-height: 1.45; text-rendering: optimizeSpeed; word-wrap: break-word; }
+*:not(pre) > code.nobreak { word-wrap: normal; }
+*:not(pre) > code.nowrap { white-space: nowrap; }
+
+pre, pre > code { line-height: 1.45; color: rgba(0, 0, 0, 0.9); font-family: "Droid Sans Mono", "DejaVu Sans Mono", "Monospace", monospace; font-weight: normal; text-rendering: optimizeSpeed; }
+
+em em { font-style: normal; }
+
+strong strong { font-weight: normal; }
+
+.keyseq { color: rgba(51, 51, 51, 0.8); }
+
+kbd { font-family: "Droid Sans Mono", "DejaVu Sans Mono", monospace; display: inline-block; color: rgba(0, 0, 0, 0.8); font-size: 0.65em; line-height: 1.45; background-color: #f7f7f7; border: 1px solid #ccc; -webkit-border-radius: 3px; border-radius: 3px; -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 0 0 0.1em white inset; box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 0 0 0.1em white inset; margin: 0 0.15em; padding: 0.2em 0.5em; vertical-align: middle; position: relative; top: -0.1em; white-space: nowrap; }
+
+.keyseq kbd:first-child { margin-left: 0; }
+
+.keyseq kbd:last-child { margin-right: 0; }
+
+.menuseq, .menu { color: rgba(0, 0, 0, 0.8); }
+
+b.button:before, b.button:after { position: relative; top: -1px; font-weight: normal; }
+
+b.button:before { content: "["; padding: 0 3px 0 2px; }
+
+b.button:after { content: "]"; padding: 0 2px 0 3px; }
+
+p a > code:hover { color: rgba(0, 0, 0, 0.9); }
+
+#header, #content, #footnotes, #footer { width: 100%; margin-left: auto; margin-right: auto; margin-top: 0; margin-bottom: 0; max-width: 62.5em; *zoom: 1; position: relative; padding-left: 0.9375em; padding-right: 0.9375em; }
+#header:before, #header:after, #content:before, #content:after, #footnotes:before, #footnotes:after, #footer:before, #footer:after { content: " "; display: table; }
+#header:after, #content:after, #footnotes:after, #footer:after { clear: both; }
+
+#content { margin-top: 1.25em; }
+
+#content:before { content: none; }
+
+#header > h1:first-child { color: #00355f; margin-top: 2.25rem; margin-bottom: 0; }
+#header > h1:first-child + #toc { margin-top: 8px; border-top: 1px solid #ffcb00; }
+#header > h1:only-child, body.toc2 #header > h1:nth-last-child(2) { border-bottom: 1px solid #ffcb00; padding-bottom: 8px; }
+#header .details { border-bottom: 1px solid #ffcb00; line-height: 1.45; padding-top: 0.25em; padding-bottom: 0.25em; padding-left: 0.25em; color: rgba(0, 0, 0, 0.6); display: -ms-flexbox; display: -webkit-flex; display: flex; -ms-flex-flow: row wrap; -webkit-flex-flow: row wrap; flex-flow: row wrap; }
+#header .details span:first-child { margin-left: -0.125em; }
+#header .details span.email a { color: #00355f; }
+#header .details br { display: none; }
+#header .details br + span:before { content: "\00a0\2013\00a0"; }
+#header .details br + span.author:before { content: "\00a0\22c5\00a0"; color: #00355f; }
+#header .details br + span#revremark:before { content: "\00a0|\00a0"; }
+#header #revnumber { text-transform: capitalize; }
+#header #revnumber:after { content: "\00a0"; }
+
+#content > h1:first-child:not([class]) { color: #00355f; border-bottom: 1px solid #ffcb00; padding-bottom: 8px; margin-top: 0; padding-top: 1rem; margin-bottom: 1.25rem; }
+
+#toc { border-bottom: 1px solid #efefed; padding-bottom: 0.5em; }
+#toc > ul { margin-left: 0.125em; }
+#toc ul.sectlevel0 > li > a { font-style: italic; }
+#toc ul.sectlevel0 ul.sectlevel1 { margin: 0.5em 0; }
+#toc ul { font-family: "Open Sans", "DejaVu Sans", sans-serif; list-style-type: none; }
+#toc li { line-height: 1.3334; margin-top: 0.3334em; }
+#toc a { text-decoration: none; }
+#toc a:active { text-decoration: underline; }
+
+#toctitle { color: #003b6c; font-size: 1.2em; }
+
+@media only screen and (min-width: 768px) { #toctitle { font-size: 1.375em; }
+  body.toc2 { padding-left: 15em; padding-right: 0; }
+  #toc.toc2 { margin-top: 0 !important; background-color: #f8f8f7; position: fixed; width: 15em; left: 0; top: 0; border-right: 1px solid #efefed; border-top-width: 0 !important; border-bottom-width: 0 !important; z-index: 1000; padding: 1.25em 1em; height: 100%; overflow: auto; }
+  #toc.toc2 #toctitle { margin-top: 0; margin-bottom: 0.8rem; font-size: 1.2em; }
+  #toc.toc2 > ul { font-size: 0.9em; margin-bottom: 0; }
+  #toc.toc2 ul ul { margin-left: 0; padding-left: 1em; }
+  #toc.toc2 ul.sectlevel0 ul.sectlevel1 { padding-left: 0; margin-top: 0.5em; margin-bottom: 0.5em; }
+  body.toc2.toc-right { padding-left: 0; padding-right: 15em; }
+  body.toc2.toc-right #toc.toc2 { border-right-width: 0; border-left: 1px solid #efefed; left: auto; right: 0; } }
+@media only screen and (min-width: 1280px) { body.toc2 { padding-left: 20em; padding-right: 0; }
+  #toc.toc2 { width: 20em; }
+  #toc.toc2 #toctitle { font-size: 1.375em; }
+  #toc.toc2 > ul { font-size: 0.95em; }
+  #toc.toc2 ul ul { padding-left: 1.25em; }
+  body.toc2.toc-right { padding-left: 0; padding-right: 20em; } }
+#content #toc { border-style: solid; border-width: 1px; border-color: #e0e0dc; margin-bottom: 1.25em; padding: 1.25em; background: #f8f8f7; -webkit-border-radius: 4px; border-radius: 4px; }
+#content #toc > :first-child { margin-top: 0; }
+#content #toc > :last-child { margin-bottom: 0; }
+
+#footer { max-width: 100%; background-color: rgba(0, 0, 0, 0.8); padding: 1.25em; }
+
+#footer-text { color: rgba(255, 255, 255, 0.8); line-height: 1.44; }
+
+.sect1 { padding-bottom: 0.625em; }
+
+@media only screen and (min-width: 768px) { .sect1 { padding-bottom: 1.25em; } }
+.sect1 + .sect1 { border-top: 1px solid #efefed; }
+
+#content h1 > a.anchor, h2 > a.anchor, h3 > a.anchor, #toctitle > a.anchor, .sidebarblock > .content > .title > a.anchor, h4 > a.anchor, h5 > a.anchor, h6 > a.anchor { position: absolute; z-index: 1001; width: 1.5ex; margin-left: -1.5ex; display: block; text-decoration: none !important; visibility: hidden; text-align: center; font-weight: normal; }
+#content h1 > a.anchor:before, h2 > a.anchor:before, h3 > a.anchor:before, #toctitle > a.anchor:before, .sidebarblock > .content > .title > a.anchor:before, h4 > a.anchor:before, h5 > a.anchor:before, h6 > a.anchor:before { content: "\00A7"; font-size: 0.85em; display: block; padding-top: 0.1em; }
+#content h1:hover > a.anchor, #content h1 > a.anchor:hover, h2:hover > a.anchor, h2 > a.anchor:hover, h3:hover > a.anchor, #toctitle:hover > a.anchor, .sidebarblock > .content > .title:hover > a.anchor, h3 > a.anchor:hover, #toctitle > a.anchor:hover, .sidebarblock > .content > .title > a.anchor:hover, h4:hover > a.anchor, h4 > a.anchor:hover, h5:hover > a.anchor, h5 > a.anchor:hover, h6:hover > a.anchor, h6 > a.anchor:hover { visibility: visible; }
+#content h1 > a.link, h2 > a.link, h3 > a.link, #toctitle > a.link, .sidebarblock > .content > .title > a.link, h4 > a.link, h5 > a.link, h6 > a.link { color: #0065b8; text-decoration: none; }
+#content h1 > a.link:hover, h2 > a.link:hover, h3 > a.link:hover, #toctitle > a.link:hover, .sidebarblock > .content > .title > a.link:hover, h4 > a.link:hover, h5 > a.link:hover, h6 > a.link:hover { color: #00579f; }
+
+.audioblock, .imageblock, .literalblock, .listingblock, .stemblock, .videoblock { margin-bottom: 1.25em; }
+
+.admonitionblock td.content > .title, .audioblock > .title, .exampleblock > .title, .imageblock > .title, .listingblock > .title, .literalblock > .title, .stemblock > .title, .openblock > .title, .paragraph > .title, .quoteblock > .title, table.tableblock > .title, .verseblock > .title, .videoblock > .title, .dlist > .title, .olist > .title, .ulist > .title, .qlist > .title, .hdlist > .title { text-rendering: optimizeLegibility; text-align: left; font-family: "Noto Serif", "DejaVu Serif", serif; font-size: 1rem; font-style: italic; }
+
+table.tableblock > caption.title { white-space: nowrap; overflow: visible; max-width: 0; }
+
+.paragraph.lead > p, #preamble > .sectionbody > .paragraph:first-of-type p { color: #00355f; }
+
+table.tableblock #preamble > .sectionbody > .paragraph:first-of-type p { font-size: inherit; }
+
+.admonitionblock > table { border-collapse: separate; border: 0; background: none; width: 100%; }
+.admonitionblock > table td.icon { text-align: center; width: 80px; }
+.admonitionblock > table td.icon img { max-width: initial; }
+.admonitionblock > table td.icon .title { font-weight: bold; font-family: "Open Sans", "DejaVu Sans", sans-serif; text-transform: uppercase; }
+.admonitionblock > table td.content { padding-left: 1.125em; padding-right: 1.25em; border-left: 1px solid #ffcb00; color: rgba(0, 0, 0, 0.6); }
+.admonitionblock > table td.content > :last-child > :last-child { margin-bottom: 0; }
+
+.exampleblock > .content { border-style: solid; border-width: 1px; border-color: #e6e6e6; margin-bottom: 1.25em; padding: 1.25em; background: white; -webkit-border-radius: 4px; border-radius: 4px; }
+.exampleblock > .content > :first-child { margin-top: 0; }
+.exampleblock > .content > :last-child { margin-bottom: 0; }
+
+.sidebarblock { border-style: solid; border-width: 1px; border-color: #e0e0dc; margin-bottom: 1.25em; padding: 1.25em; background: #f8f8f7; -webkit-border-radius: 4px; border-radius: 4px; }
+.sidebarblock > :first-child { margin-top: 0; }
+.sidebarblock > :last-child { margin-bottom: 0; }
+.sidebarblock > .content > .title { color: #003b6c; margin-top: 0; text-align: center; }
+
+.exampleblock > .content > :last-child > :last-child, .exampleblock > .content .olist > ol > li:last-child > :last-child, .exampleblock > .content .ulist > ul > li:last-child > :last-child, .exampleblock > .content .qlist > ol > li:last-child > :last-child, .sidebarblock > .content > :last-child > :last-child, .sidebarblock > .content .olist > ol > li:last-child > :last-child, .sidebarblock > .content .ulist > ul > li:last-child > :last-child, .sidebarblock > .content .qlist > ol > li:last-child > :last-child { margin-bottom: 0; }
+
+.literalblock pre, .listingblock pre:not(.highlight), .listingblock pre[class="highlight"], .listingblock pre[class^="highlight "], .listingblock pre.CodeRay, .listingblock pre.prettyprint { background: #f7f7f8; }
+.sidebarblock .literalblock pre, .sidebarblock .listingblock pre:not(.highlight), .sidebarblock .listingblock pre[class="highlight"], .sidebarblock .listingblock pre[class^="highlight "], .sidebarblock .listingblock pre.CodeRay, .sidebarblock .listingblock pre.prettyprint { background: #f2f1f1; }
+
+.literalblock pre, .literalblock pre[class], .listingblock pre, .listingblock pre[class] { -webkit-border-radius: 4px; border-radius: 4px; word-wrap: break-word; padding: 1em; font-size: 0.8125em; }
+.literalblock pre.nowrap, .literalblock pre[class].nowrap, .listingblock pre.nowrap, .listingblock pre[class].nowrap { overflow-x: auto; white-space: pre; word-wrap: normal; }
+@media only screen and (min-width: 768px) { .literalblock pre, .literalblock pre[class], .listingblock pre, .listingblock pre[class] { font-size: 0.90625em; } }
+@media only screen and (min-width: 1280px) { .literalblock pre, .literalblock pre[class], .listingblock pre, .listingblock pre[class] { font-size: 1em; } }
+
+.literalblock.output pre { color: #f7f7f8; background-color: rgba(0, 0, 0, 0.9); }
+
+.listingblock pre.highlightjs { padding: 0; }
+.listingblock pre.highlightjs > code { padding: 1em; -webkit-border-radius: 4px; border-radius: 4px; }
+
+.listingblock pre.prettyprint { border-width: 0; }
+
+.listingblock > .content { position: relative; }
+
+.listingblock code[data-lang]:before { display: none; content: attr(data-lang); position: absolute; font-size: 0.75em; top: 0.425rem; right: 0.5rem; line-height: 1; text-transform: uppercase; color: #999; }
+
+.listingblock:hover code[data-lang]:before { display: block; }
+
+.listingblock.terminal pre .command:before { content: attr(data-prompt); padding-right: 0.5em; color: #999; }
+
+.listingblock.terminal pre .command:not([data-prompt]):before { content: "$"; }
+
+table.pyhltable { border-collapse: separate; border: 0; margin-bottom: 0; background: none; }
+
+table.pyhltable td { vertical-align: top; padding-top: 0; padding-bottom: 0; line-height: 1.45; }
+
+table.pyhltable td.code { padding-left: .75em; padding-right: 0; }
+
+pre.pygments .lineno, table.pyhltable td:not(.code) { color: #999; padding-left: 0; padding-right: .5em; border-right: 1px solid #ffcb00; }
+
+pre.pygments .lineno { display: inline-block; margin-right: .25em; }
+
+table.pyhltable .linenodiv { background: none !important; padding-right: 0 !important; }
+
+.quoteblock { margin: 0 1em 1.25em 1.5em; display: table; }
+.quoteblock > .title { margin-left: -1.5em; margin-bottom: 0.75em; }
+.quoteblock blockquote, .quoteblock blockquote p { color: #00355f; font-size: 1.15rem; line-height: 1.75; word-spacing: 0.1em; letter-spacing: 0; font-style: italic; text-align: justify; }
+.quoteblock blockquote { margin: 0; padding: 0; border: 0; }
+.quoteblock blockquote:before { content: "\201c"; float: left; font-size: 2.75em; font-weight: bold; line-height: 0.6em; margin-left: -0.6em; color: #003b6c; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); }
+.quoteblock blockquote > .paragraph:last-child p { margin-bottom: 0; }
+.quoteblock .attribution { margin-top: 0.5em; margin-right: 0.5ex; text-align: right; }
+.quoteblock .quoteblock { margin-left: 0; margin-right: 0; padding: 0.5em 0; border-left: 3px solid rgba(0, 0, 0, 0.6); }
+.quoteblock .quoteblock blockquote { padding: 0 0 0 0.75em; }
+.quoteblock .quoteblock blockquote:before { display: none; }
+
+.verseblock { margin: 0 1em 1.25em 1em; }
+.verseblock pre { font-family: "Open Sans", "DejaVu Sans", sans; font-size: 1.15rem; color: #00355f; font-weight: 300; text-rendering: optimizeLegibility; }
+.verseblock pre strong { font-weight: 400; }
+.verseblock .attribution { margin-top: 1.25rem; margin-left: 0.5ex; }
+
+.quoteblock .attribution, .verseblock .attribution { font-size: 0.9375em; line-height: 1.45; font-style: italic; }
+.quoteblock .attribution br, .verseblock .attribution br { display: none; }
+.quoteblock .attribution cite, .verseblock .attribution cite { display: block; letter-spacing: -0.025em; color: rgba(0, 0, 0, 0.6); }
+
+.quoteblock.abstract { margin: 0 0 1.25em 0; display: block; }
+.quoteblock.abstract blockquote, .quoteblock.abstract blockquote p { text-align: left; word-spacing: 0; }
+.quoteblock.abstract blockquote:before, .quoteblock.abstract blockquote p:first-of-type:before { display: none; }
+
+table.tableblock { max-width: 100%; border-collapse: separate; }
+table.tableblock td > .paragraph:last-child p > p:last-child, table.tableblock th > p:last-child, table.tableblock td > p:last-child { margin-bottom: 0; }
+
+table.tableblock, th.tableblock, td.tableblock { border: 0 solid #dedede; }
+
+table.grid-all th.tableblock, table.grid-all td.tableblock { border-width: 0 1px 1px 0; }
+
+table.grid-all tfoot > tr > th.tableblock, table.grid-all tfoot > tr > td.tableblock { border-width: 1px 1px 0 0; }
+
+table.grid-cols th.tableblock, table.grid-cols td.tableblock { border-width: 0 1px 0 0; }
+
+table.grid-all * > tr > .tableblock:last-child, table.grid-cols * > tr > .tableblock:last-child { border-right-width: 0; }
+
+table.grid-rows th.tableblock, table.grid-rows td.tableblock { border-width: 0 0 1px 0; }
+
+table.grid-all tbody > tr:last-child > th.tableblock, table.grid-all tbody > tr:last-child > td.tableblock, table.grid-all thead:last-child > tr > th.tableblock, table.grid-rows tbody > tr:last-child > th.tableblock, table.grid-rows tbody > tr:last-child > td.tableblock, table.grid-rows thead:last-child > tr > th.tableblock { border-bottom-width: 0; }
+
+table.grid-rows tfoot > tr > th.tableblock, table.grid-rows tfoot > tr > td.tableblock { border-width: 1px 0 0 0; }
+
+table.frame-all { border-width: 1px; }
+
+table.frame-sides { border-width: 0 1px; }
+
+table.frame-topbot { border-width: 1px 0; }
+
+th.halign-left, td.halign-left { text-align: left; }
+
+th.halign-right, td.halign-right { text-align: right; }
+
+th.halign-center, td.halign-center { text-align: center; }
+
+th.valign-top, td.valign-top { vertical-align: top; }
+
+th.valign-bottom, td.valign-bottom { vertical-align: bottom; }
+
+th.valign-middle, td.valign-middle { vertical-align: middle; }
+
+table thead th, table tfoot th { font-weight: bold; }
+
+tbody tr th { display: table-cell; line-height: 1.6; background: #f7f8f7; }
+
+tbody tr th, tbody tr th p, tfoot tr th, tfoot tr th p { color: rgba(0, 0, 0, 0.8); font-weight: bold; }
+
+p.tableblock > code:only-child { background: none; padding: 0; }
+
+p.tableblock { font-size: 1em; }
+
+td > div.verse { white-space: pre; }
+
+ol { margin-left: 1.75em; }
+
+ul li ol { margin-left: 1.5em; }
+
+dl dd { margin-left: 1.125em; }
+
+dl dd:last-child, dl dd:last-child > :last-child { margin-bottom: 0; }
+
+ol > li p, ul > li p, ul dd, ol dd, .olist .olist, .ulist .ulist, .ulist .olist, .olist .ulist { margin-bottom: 0.625em; }
+
+ul.unstyled, ol.unnumbered, ul.checklist, ul.none { list-style-type: none; }
+
+ul.unstyled, ol.unnumbered, ul.checklist { margin-left: 0.625em; }
+
+ul.checklist li > p:first-child > .fa-square-o:first-child, ul.checklist li > p:first-child > .fa-check-square-o:first-child { width: 1em; font-size: 0.85em; }
+
+ul.checklist li > p:first-child > input[type="checkbox"]:first-child { width: 1em; position: relative; top: 1px; }
+
+ul.inline { margin: 0 auto 0.625em auto; margin-left: -1.375em; margin-right: 0; padding: 0; list-style: none; overflow: hidden; }
+ul.inline > li { list-style: none; float: left; margin-left: 1.375em; display: block; }
+ul.inline > li > * { display: block; }
+
+.unstyled dl dt { font-weight: normal; font-style: normal; }
+
+ol.arabic { list-style-type: decimal; }
+
+ol.decimal { list-style-type: decimal-leading-zero; }
+
+ol.loweralpha { list-style-type: lower-alpha; }
+
+ol.upperalpha { list-style-type: upper-alpha; }
+
+ol.lowerroman { list-style-type: lower-roman; }
+
+ol.upperroman { list-style-type: upper-roman; }
+
+ol.lowergreek { list-style-type: lower-greek; }
+
+.hdlist > table, .colist > table { border: 0; background: none; }
+.hdlist > table > tbody > tr, .colist > table > tbody > tr { background: none; }
+
+td.hdlist1, td.hdlist2 { vertical-align: top; padding: 0 0.625em; }
+
+td.hdlist1 { font-weight: bold; padding-bottom: 1.25em; }
+
+.literalblock + .colist, .listingblock + .colist { margin-top: -0.5em; }
+
+.colist > table tr > td:first-of-type { padding: 0 0.75em; line-height: 1; }
+.colist > table tr > td:first-of-type img { max-width: initial; }
+.colist > table tr > td:last-of-type { padding: 0.25em 0; }
+
+.thumb, .th { line-height: 0; display: inline-block; border: solid 4px white; -webkit-box-shadow: 0 0 0 1px #dddddd; box-shadow: 0 0 0 1px #dddddd; }
+
+.imageblock.left, .imageblock[style*="float: left"] { margin: 0.25em 0.625em 1.25em 0; }
+.imageblock.right, .imageblock[style*="float: right"] { margin: 0.25em 0 1.25em 0.625em; }
+.imageblock > .title { margin-bottom: 0; }
+.imageblock.thumb, .imageblock.th { border-width: 6px; }
+.imageblock.thumb > .title, .imageblock.th > .title { padding: 0 0.125em; }
+
+.image.left, .image.right { margin-top: 0.25em; margin-bottom: 0.25em; display: inline-block; line-height: 0; }
+.image.left { margin-right: 0.625em; }
+.image.right { margin-left: 0.625em; }
+
+a.image { text-decoration: none; display: inline-block; }
+a.image object { pointer-events: none; }
+
+sup.footnote, sup.footnoteref { font-size: 0.875em; position: static; vertical-align: super; }
+sup.footnote a, sup.footnoteref a { text-decoration: none; }
+sup.footnote a:active, sup.footnoteref a:active { text-decoration: underline; }
+
+#footnotes { padding-top: 0.75em; padding-bottom: 0.75em; margin-bottom: 0.625em; }
+#footnotes hr { width: 20%; min-width: 6.25em; margin: -0.25em 0 0.75em 0; border-width: 1px 0 0 0; }
+#footnotes .footnote { padding: 0 0.375em 0 0.225em; line-height: 1.3334; font-size: 0.875em; margin-left: 1.2em; text-indent: -1.05em; margin-bottom: 0.2em; }
+#footnotes .footnote a:first-of-type { font-weight: bold; text-decoration: none; }
+#footnotes .footnote:last-of-type { margin-bottom: 0; }
+#content #footnotes { margin-top: -0.625em; margin-bottom: 0; padding: 0.75em 0; }
+
+.gist .file-data > table { border: 0; background: #fff; width: 100%; margin-bottom: 0; }
+.gist .file-data > table td.line-data { width: 99%; }
+
+div.unbreakable { page-break-inside: avoid; }
+
+.big { font-size: larger; }
+
+.small { font-size: smaller; }
+
+.underline { text-decoration: underline; }
+
+.overline { text-decoration: overline; }
+
+.line-through { text-decoration: line-through; }
+
+.aqua { color: #00bfbf; }
+
+.aqua-background { background-color: #00fafa; }
+
+.black { color: black; }
+
+.black-background { background-color: black; }
+
+.blue { color: #0000bf; }
+
+.blue-background { background-color: #0000fa; }
+
+.fuchsia { color: #bf00bf; }
+
+.fuchsia-background { background-color: #fa00fa; }
+
+.gray { color: #606060; }
+
+.gray-background { background-color: #7d7d7d; }
+
+.green { color: #006000; }
+
+.green-background { background-color: #007d00; }
+
+.lime { color: #00bf00; }
+
+.lime-background { background-color: #00fa00; }
+
+.maroon { color: #600000; }
+
+.maroon-background { background-color: #7d0000; }
+
+.navy { color: #000060; }
+
+.navy-background { background-color: #00007d; }
+
+.olive { color: #606000; }
+
+.olive-background { background-color: #7d7d00; }
+
+.purple { color: #600060; }
+
+.purple-background { background-color: #7d007d; }
+
+.red { color: #bf0000; }
+
+.red-background { background-color: #fa0000; }
+
+.silver { color: #909090; }
+
+.silver-background { background-color: #bcbcbc; }
+
+.teal { color: #006060; }
+
+.teal-background { background-color: #007d7d; }
+
+.white { color: #bfbfbf; }
+
+.white-background { background-color: #fafafa; }
+
+.yellow { color: #bfbf00; }
+
+.yellow-background { background-color: #fafa00; }
+
+span.icon > .fa { cursor: default; }
+
+.admonitionblock td.icon [class^="fa icon-"] { font-size: 2.5em; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); cursor: default; }
+.admonitionblock td.icon .icon-note:before { content: "\f05a"; color: #19407c; }
+.admonitionblock td.icon .icon-tip:before { content: "\f0eb"; text-shadow: 1px 1px 2px rgba(155, 155, 0, 0.8); color: #111; }
+.admonitionblock td.icon .icon-warning:before { content: "\f071"; color: #bf6900; }
+.admonitionblock td.icon .icon-caution:before { content: "\f06d"; color: #bf3400; }
+.admonitionblock td.icon .icon-important:before { content: "\f06a"; color: #bf0000; }
+
+.conum[data-value] { display: inline-block; color: #fff !important; background-color: rgba(0, 0, 0, 0.8); -webkit-border-radius: 100px; border-radius: 100px; text-align: center; font-size: 0.75em; width: 1.67em; height: 1.67em; line-height: 1.67em; font-family: "Open Sans", "DejaVu Sans", sans-serif; font-style: normal; font-weight: bold; }
+.conum[data-value] * { color: #fff !important; }
+.conum[data-value] + b { display: none; }
+.conum[data-value]:after { content: attr(data-value); }
+pre .conum[data-value] { position: relative; top: -0.125em; }
+
+b.conum * { color: inherit !important; }
+
+.conum:not([data-value]):empty { display: none; }
+
+body { text-align: justify; }
+
+.logos .content { display: flex; flex-flow: row wrap; justify-content: space-around; }
+
+</style>
+</head>
+<body class="article">
+<div id="header">
+<h1>Code Academy: Docker for developers</h1>
+<div class="details">
+<span id="author" class="author">Guillaume Scheibel&lt;gscheibel@expedia.com&gt;</span><br>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="openblock logos">
+<div class="content">
+<div class="imageblock">
+<div class="content">
+<img src="material/images//codeacademylogo.png" alt="codeacademylogo">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="material/images//docker.png" alt="docker">
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>This course will teach you how to manipulate Docker images and containers from a developer perspective.</p>
+</div>
+<div id="toc" class="toc">
+<div id="toctitle" class="title">We will cover</div>
+<ul class="sectlevel1">
+<li><a href="#_lesson_0_introduction">Lesson 0: Introduction</a></li>
+<li><a href="#_lesson_1_make_your_own_image">Lesson 1: Make your own image.</a></li>
+<li><a href="#_lesson_2_the_dockerfile">Lesson 2: The Dockerfile</a></li>
+<li><a href="#_lesson_3_containers_and_the_rest_of_the_world">Lesson 3: Containers and the rest of the world</a></li>
+<li><a href="#_lesson_4_more_instructions">Lesson 4: More instructions &#8230;&#8203;</a></li>
+<li><a href="#_lesson_5_when_several_containers_talk_to_each_other">Lesson 5: When several containers talk to each other.</a></li>
+<li><a href="#_lesson_6_docker_compose_or_how_to_be_even_more_declarative_and_automated">Lesson 6: Docker-compose or how to be even more declarative and automated.</a></li>
+<li><a href="#_lesson_7_launch_it_and_watch_it_fly">Lesson 7: Launch it and watch it fly</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lesson_0_introduction"><a class="anchor" href="#_lesson_0_introduction"></a>Lesson 0: Introduction</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_docker_vs_virtual_machines"><a class="anchor" href="#_docker_vs_virtual_machines"></a>Docker vs Virtual Machines</h3>
+<div class="paragraph">
+<p>You may wondering why you should learn Docker when you already know what a VM is and how to use it to encapsulate and run an application.</p>
+</div>
+<div class="paragraph">
+<p>When you create a VM you need to emulate every component of the machine, you should install a full OS and you should configure it to run your service.
+Of course you can use provisioning tools but this is still time consuming, resource heavy and, most of all, it doesn&#8217;t feel good when you are building micro services.</p>
+</div>
+<div class="paragraph">
+<p>Docker uses all the resources of your host machine and it just creates an isolated filesystem (using <a href="https://en.wikipedia.org/wiki/UnionFS">UFS</a>) where to run your service.
+This approach is lighter and much faster.
+Of course there are other cool features of Docker that make it a great tool, but we will go through them during this course.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="material/images//docker_vs_vm.jpg" alt="docker vs vm">
+</div>
+</div>
+<div class="paragraph">
+<p>If you want more details about the differences between Docker and VMs, you should read <a href="https://blog.docker.com/2016/03/containers-are-not-vms/">this</a> or <a href="https://devops.com/docker-vs-vms/">this</a> article.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_set_up"><a class="anchor" href="#_set_up"></a>Set up</h3>
+<div class="paragraph">
+<p>If you don&#8217;t have docker installed yet, go to the Docker page <a href="https://docs.docker.com/docker-for-mac/">for Mac</a> or <a href="https://docs.docker.com/docker-for-windows/">for Windows</a> and download the installation file.
+The easiest way then is to follow the steps provided on the page (<a href="https://docs.docker.com/docker-for-mac/#step-1-install-and-run-docker-for-mac">for Mac</a> or <a href="https://docs.docker.com/docker-for-windows/\#/step-1-install-docker-for-windows">for Windows</a>).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_is_my_set_up_completed"><a class="anchor" href="#_is_my_set_up_completed"></a>Is my set up completed?</h3>
+<div class="paragraph">
+<p>As mentioned in the official page, you should be able to see a Docker icon (a small whale) in your top status bar.</p>
+</div>
+<div class="paragraph">
+<p>From a new terminal, you should be able to run the following commands:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>docker --version</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And have something similar to <code>Docker version 17.06.2-ce, build cec0b72</code> as output.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+You can easily install Docker command completion by following <a href="https://docs.docker.com/compose/completion/#/bash">these</a> steps
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_pulling_docker_images"><a class="anchor" href="#_pulling_docker_images"></a>Pulling Docker images</h3>
+<div class="paragraph">
+<p>For this course, we are going to use mostly the Debian base image.</p>
+</div>
+<div class="paragraph">
+<div class="title">Exercise</div>
+<p>Download the latest Debian docker image from the official registry.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+if you don&#8217;t remember which command to run, have a look the helper via <code>docker help</code>
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="title">Expected output</div>
+<div class="content">
+<pre class="highlight"><code>Using default tag: latest <b class="conum">(1)</b>
+latest: Pulling from library/debian
+75a822cd7888: Pull complete
+Digest: sha256:f7062cf040f67f0c26ff46b3b44fe036c29468a7e69d8170f37c57f2eec1261b
+Status: Downloaded newer image for debian:latest</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>As we haven&#8217;t specified a specific version, Docker downloads the <code>latest</code> one</p>
+</li>
+</ol>
+</div>
+<div class="sect3">
+<h4 id="_tags"><a class="anchor" href="#_tags"></a>Tags</h4>
+<div class="paragraph">
+<p>Each docker image can be tagged with a string.
+The tag is used as a version number.
+Every docker image can be represented with a tag, the naming convention is then <code>&lt;image name&gt;:&lt;tag&gt;</code>.
+The default tag is <code>latest</code>.</p>
+</div>
+<div class="paragraph">
+<div class="title">Exercise</div>
+<p>Download the debian image tagged <code>jessie-slim</code></p>
+</div>
+<div class="listingblock">
+<div class="title">Expected output</div>
+<div class="content">
+<pre class="highlight"><code>jessie-slim: Pulling from library/debian
+1a095986e25e: Pull complete
+Digest: sha256:facf8d92aeeeaff4f57d9af5897330430ebdc0cfc95d7855a0bdf9f0ff8af410
+Status: Downloaded newer image for debian:jessie-slim</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_running_a_container"><a class="anchor" href="#_running_a_container"></a>Running a container</h3>
+<div class="paragraph">
+<p>A container is to an image what the cake is to a recipe.
+Now we know the recipe to create a "debian cake" let&#8217;s bake!</p>
+</div>
+<div class="paragraph">
+<p>Effectively, running a container means running a command in a new container. (?)
+Containers are running a Linux environment, so run a good old bash.</p>
+</div>
+<div class="paragraph">
+<p>To start a new container we are going to use the <code>run</code> command.
+The structure of the command is the following <code>docker run [OPTIONS] IMAGE [COMMAND] [ARG&#8230;&#8203;]</code>.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+As usual, to get more help we can always use <code>docker [COMMAND] --help</code> which would be <code>docker run --help</code> in this case.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<div class="title">Exercise</div>
+<p>Run the <code>/bin/bash</code> command, in a new <code>debian</code> container.
+What does happen?</p>
+</div>
+<div id="run-debian-bash" class="paragraph">
+<div class="title">Exercise</div>
+<p>Run a new debian container (with a bash session) as before but attach a terminal to it
+What does happen this time?</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_which_containers_are_running"><a class="anchor" href="#_which_containers_are_running"></a>Which containers are running?</h3>
+<div class="paragraph">
+<p>How to get the list of running processes from the command line?
+You would probably answer the <em>ps</em> command and you would be right.
+Docker has the same command.</p>
+</div>
+<div class="paragraph">
+<div class="title">Exercise</div>
+<p>While you have a bash session running in a container (see the <a href="#run-debian-bash">Run bash in Debian exercise</a>).
+Open another terminal and list the current running containers.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_container_s_filesystem"><a class="anchor" href="#_container_s_filesystem"></a>Container&#8217;s filesystem</h3>
+<div class="paragraph">
+<p>What does happen when in a VM you delete the <code>/bin</code>?
+You pray there is a snapshot somewhere!</p>
+</div>
+<div class="paragraph">
+<p>In the container world, each container is independent and non-persistent.
+It means if you&#8217;re running a container, you can delete some part of the filesystem and you&#8217;ll still be able to create new instances of the image.
+The corollary is, if you create a file locally and start container, your file won&#8217;t be there.</p>
+</div>
+<div class="paragraph">
+<div class="title">Exercise</div>
+<p>Take a running debian container.
+Delete some files (like /media for instance).
+In another terminal, start a container of the same type</p>
+</div>
+<div class="paragraph">
+<div class="title">Exercise</div>
+<p>In a container, create or delete a file but this time restart the container instead of creating a new one.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+Have a look at <code>docker restart</code> and <code>docker exec</code>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lesson_1_make_your_own_image"><a class="anchor" href="#_lesson_1_make_your_own_image"></a>Lesson 1: Make your own image.</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_how_do_images_docker_work"><a class="anchor" href="#_how_do_images_docker_work"></a>How do images Docker work?</h3>
+<div class="paragraph">
+<p>A Docker image is not a uniform block.
+An image is a stack of layers piled on top of each other.
+An interesting comparison would be against a git repository.
+Each commit creates a SHA-1 which identifies that particular commit.
+At any point in time - the history - you have a representation combining all the previous revision.</p>
+</div>
+<div class="paragraph">
+<p>For Docker images, it works the same way.
+Each layer represents a - read-only - diff of the filesystem.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="material/images//image-layers.jpg" alt="image layers">
+</div>
+<div class="title">Figure 1. Example of an image&#8217;s layer</div>
+</div>
+<div class="paragraph">
+<p>When we create a container out of an image, the Docker engine adds an extra read/write filesystem layer.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_how_to_create_a_new_layer"><a class="anchor" href="#_how_to_create_a_new_layer"></a>How to create a new layer?</h3>
+<div class="paragraph">
+<p>How do you save your changes with git?
+<code>git commit</code> of course.<br>
+With Docker, it works more or less the same way.</p>
+</div>
+<div class="paragraph">
+<div class="title">Exercise</div>
+<p>From the Debian base image, create a simple <code>logs</code> folder under <code>/opt</code>.
+Then exit the container.
+Save your changes using the <code>commit</code> command.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>You&#8217;ll need the ID of your container.
+You have 2 easy ways to find it:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Lookup for the list of containers (there is a command for that)</p>
+</li>
+<li>
+<p>If you are connected to the container (TTY + Stdin session), you might have noticed the PS1 <code>root@[SHORT_CONTAINER_ID]</code></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<div class="title">Expected result</div>
+<p>The docker engine should output the ID of the new image.
+It will look like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>sha256: 769d7be53b006f7fa793e5e34483aa3c18d88564cea2c49134cd7c3e2c3274ee <b class="conum">(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Where <code>769d7be53b006f7fa793e5e34483aa3c18d88564cea2c49134cd7c3e2c3274ee</code> is the new ID of the newly created image.</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+You can refer to the image using either the long or the short version (12 first characters <code>769d7be53b00</code>).
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<div class="title">Exercise</div>
+<p>Start a new container from the image we&#8217;ve just created.
+And check if the <code>/opt/logs</code> folder is there.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+If you don&#8217;t remember the images you have available on your host, try to list them of.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<div class="title">Expected output</div>
+<p>As you can image the output should be <code>logs</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The commit command has two interesting options <code>-a</code> to specify the author and <code>-m</code> to add a message.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_let_s_make_our_image_a_bit_more_easy_to_use"><a class="anchor" href="#_let_s_make_our_image_a_bit_more_easy_to_use"></a>Let&#8217;s make our image a bit more easy to use</h3>
+<div class="paragraph">
+<p>As we already know, Docker images can have names and tags.
+When you commit an image you can specify the <code>repository</code>, it means simply its name like <code>debian</code> is the name for the image <code>e5599115b6a6</code>.</p>
+</div>
+<div class="paragraph">
+<div class="title">Exercise</div>
+<p>From the image created during the previous exercise, add a file in the logs folder.
+Then commit this new change but with a name for your image.</p>
+</div>
+<div class="paragraph">
+<div class="title">Expected result</div>
+<p>The output should look the same as for the previous exercise but with a new ID.</p>
+</div>
+<div class="sect3">
+<h4 id="_tagging"><a class="anchor" href="#_tagging"></a>Tagging</h4>
+<div class="paragraph">
+<p>Tags are used to set the version of the image.
+Like you would have with the version of a piece of software or a library.</p>
+</div>
+<div class="paragraph">
+<p>Tags can pretty much be any string.
+Remember <code>debian:latest</code> and <code>debian:jessie-slim</code></p>
+</div>
+<div class="paragraph">
+<div class="title">Exercise</div>
+<p>Add a new file into the logs folder of <code>mySuperImage</code> but this time when you commit add a tag to this version.
+Then list your local images and see the different tags you have for your image.</p>
+</div>
+<div class="paragraph">
+<div class="title">Expected output</div>
+<p>The list command output should look like</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>REPOSITORY      TAG         IMAGE ID
+mySuperImage    v2          e1402e0cdc9a
+mySuperImage    latest      e1402e0cdc9a</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_sharing_your_image"><a class="anchor" href="#_sharing_your_image"></a>Sharing your image</h4>
+<div class="paragraph">
+<p>If we can pull images, we should be able to push right?
+When we want to add or share a library, we are used to using a central repository like Maven Central, Ruby Gems, NPM repositories and so on.</p>
+</div>
+<div class="paragraph">
+<p>With Docker it works the same way.
+The default repository is named <a href="https://hub.docker.com/">Docker Hub</a>.</p>
+</div>
+<div class="paragraph">
+<p>On Docker Hub, you&#8217;ll be able to find plenty of images.
+Some of them are called officials and are maintained by the same team developing the solution.
+Have a look at the <a href="https://hub.docker.com/_/debian/">Debian page</a> for instance.</p>
+</div>
+<div class="paragraph">
+<p>Next to the officials, anybody can have a repository and push custom images like <a href="https://hub.docker.com/r/gscheibel/expedia-docker-for-devs/">the one</a> created for this lesson.</p>
+</div>
+<div class="sect4">
+<h5 id="_prepare_the_image"><a class="anchor" href="#_prepare_the_image"></a>Prepare the image</h5>
+<div class="paragraph">
+<p>To push an image into the Hub, first you need an account.
+Then you have to create a new repository let say <code>{repository-name}</code>.</p>
+</div>
+<div class="paragraph">
+<p>After that on your machine, you tag the image you want to push with the name of you repository.</p>
+</div>
+<div class="paragraph">
+<p>To do so, use the <code>tag</code> command.
+It follows the following format:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>docker tag IMAGE_ID HUB_ACCOUNT_NAME<strong>/</strong>HUB_REPOSITORY_NAME<strong>:</strong>VERSION</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If I want to share the image <code>e1402e0cdc9a</code> as my {expedia-docker-for-devs} image, the command will then be:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>docker tag e1402e0cdc9a gscheibel/expedia-docker-for-devs <b class="conum">(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>If you don&#8217;t specify the tag version it will be <code>latest</code> by default.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_pushing_the_image"><a class="anchor" href="#_pushing_the_image"></a>Pushing the image</h5>
+<div class="paragraph">
+<p>Now we have a our image, let&#8217;s push it to the hub.</p>
+</div>
+<div class="paragraph">
+<p>First step we have to log in to the Hub from our terminal using <code>docker login</code>.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="material/images//docker-login.png" alt="docker login">
+</div>
+</div>
+<div class="paragraph">
+<p>Second step, push it using <code>docker push gscheibel/expedia-docker-for-devs</code></p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="material/images//docker-push.png" alt="docker push">
+</div>
+</div>
+<div class="paragraph">
+<p>Finally, if we look at our repository in the hub - under the Tags tab - we have our image.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="material/images//hub-repository.png" alt="hub repository">
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lesson_2_the_dockerfile"><a class="anchor" href="#_lesson_2_the_dockerfile"></a>Lesson 2: The Dockerfile</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_a_quick_recap_about_docker_images"><a class="anchor" href="#_a_quick_recap_about_docker_images"></a>A quick recap about Docker Images</h3>
+<div class="paragraph">
+<p>A Docker Image is made up of filesystems layered over each other.
+At the base there is a boot filesystem, <em>bootfs</em>, on top of it there is the <em>rootfs</em>, our Operation System (eg. Debian).
+At this point we can add other layers to compose our final <em>image</em>, each of this layers are <em>read-only</em> images.
+When we finally run our container (<em>docker run &lt;image name&gt;</em>), we are just adding a new <em>read-write</em> layer on top of our <em>read-only</em> layers pile.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="material/images//image-layers-2.png" alt="image layers 2" width="400px">
+</div>
+</div>
+<div class="paragraph">
+<p>In lesson 1 we built our <em>image</em> using the <em>docker commit</em> command.
+This approach can be useful for quick tests or to apply minor changes to an existing <em>image</em>, but generally when we start building more complex images we have a better option.</p>
+</div>
+<div class="paragraph">
+<p>In this lesson we are going to learn how to generate a Docker image starting from a <strong>Dockerfile</strong>.
+A <em>Dockerfile</em> is a simple text file using a basic DSL (Domain Specific Language).
+This approach is usually recommended because it provides a more repeatable mechanism to create images.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dockerfile_and_images"><a class="anchor" href="#_dockerfile_and_images"></a>Dockerfile and images</h3>
+<div class="paragraph">
+<p>A Dockerfile is effectively a text file describing a set of instructions to execute when the image is being built.
+All the instructions follow the same syntax:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code># Comment
+INSTRUCTION arguments</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The first instruction <strong>must</strong> be <code>FROM</code>.
+It specifies which base image your are building from.</p>
+</div>
+<div class="paragraph">
+<p>For example building a custom image on top of the <code>debian:jessie-slim</code> image one would be:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>FROM debian:jessie-slim</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Previously to create a new image, we used <code>commit</code>.
+Now we are going to use the <code>build</code> command.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Have a look the helper for that command.
+And more specifically at the <code>-f</code> and <code>-t</code> options, they will be useful.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<div class="title">Exercise</div>
+<p>Build, with a tag of your choice, a docker image based on <code>debian:latest</code>.
+Then look up the list of local images on your machine to see if you can find it.</p>
+</div>
+<div class="paragraph">
+<div class="title">Expected output</div>
+<p>Once you run that command, you should be able to see something like</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>Sending build context to Docker daemon 6.144 kB
+Step 1/1 : FROM debian:jessie-slim
+ ---> 7d86024f45a4
+Successfully built 7d86024f45a4</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>By running <code>docker images</code> we can check the new image is there</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>docker images
+
+debian  jessie-slim     7d86024f45a4   4 weeks ago   80 MB
+firstfromfile  latest   7d86024f45a4   4 weeks ago   80 MB</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+As our image is exactly the same as the base one, the ID is the same.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Let people know who is maintaining the image and its Dockerfile by adding a label.
+To do so, we can add a label to our image.</p>
+</div>
+<div class="paragraph">
+<p>The <code>LABEL</code> instruction adds a set of key-value pairs to the image.
+Labels are like comments for the the image itself.
+Images can have several labels and their content can be any string.</p>
+</div>
+<div class="paragraph">
+<div class="title">Exercise</div>
+<p>Add a label named <code>maintainer</code> with your name to your docker image and rebuild it.</p>
+</div>
+<div class="paragraph">
+<div class="title">Expected output</div>
+<p>Now we should be able to see a new step in the building process.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>Sending build context to Docker daemon 1.386 MB
+Step 1/2 : FROM debian:jessie-slim
+ ---&gt; 7d86024f45a4
+Step 2/2 : LABEL maintainer Guillaume Scheibel &lt;gscheibel@expedia.com&gt;
+ ---&gt; Running in 44623b0480c1
+ ---&gt; bc7f87bedbc5
+Removing intermediate container 44623b0480c1
+Successfully built bc7f87bedbc5 <b class="conum">(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>As we add a new step, we get a new image ID.</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+To look at the labels, run the <code>inspect</code> command.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_let_s_build_up_our_images"><a class="anchor" href="#_let_s_build_up_our_images"></a>Let&#8217;s build up our images</h3>
+<div class="paragraph">
+<p>To customize an image from a Dockerfile, there are several interesting instructions to know.</p>
+</div>
+<div class="sect3">
+<h4 id="_how_to_code_run_code_a_command_at_build_time"><a class="anchor" href="#_how_to_code_run_code_a_command_at_build_time"></a>How to <code>RUN</code> a command at build time?</h4>
+<div class="paragraph">
+<p>The <a href="https://docs.docker.com/engine/reference/builder/#/run">RUN</a> instruction will run any command on the current layer and commit it.
+By default all the command are running in as <code>/bin/sh -c</code> command.</p>
+</div>
+<div class="paragraph">
+<p>The instruction has 2 forms:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>RUN &lt;command&gt; <b class="conum">(1)</b>
+RUN ["executable", "param1", "param2"] <b class="conum">(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>This form only run the &lt;command&gt; in a <code>sh</code> shell</p>
+</li>
+<li>
+<p>If you want to run a command like <code>/bin/bash -c &lt;doSomething&gt;</code>, using the form (<code>RUN ["/bin/bash", "-c", "&lt;doSomething&gt;"]</code>).</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<div class="title">Exercise</div>
+<p>Add a new layer by creating a <code>logs</code> folder under <code>/opt</code> and build the image.</p>
+</div>
+<div class="paragraph">
+<div class="title">Expected output</div>
+<p>As we add a new layer, we expect to get a new step and a new ID.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>Sending build context to Docker daemon 1.389 MB
+Step 1/3 : FROM debian:jessie-slim
+ ---&gt; 7d86024f45a4
+Step 2/3 : LABEL maintainer Guillaume Scheibel &lt;gscheibel@expedia.com&gt;
+ ---&gt; Using cache <b class="conum">(1)</b>
+ ---&gt; bc7f87bedbc5
+Step 3/3 : RUN mkdir /opt/logs <b class="conum">(2)</b>
+ ---&gt; Running in f4f814acbd73
+ ---&gt; 35e492fc1c49
+Removing intermediate container f4f814acbd73
+Successfully built 35e492fc1c49</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>As this step has not been modified, there is no need to rebuild it and it can be reused from the cache directly which speeds up the build process</p>
+</li>
+<li>
+<p>Our new instruction</p>
+</li>
+</ol>
+</div>
+<div class="sect4">
+<h5 id="_how_to_customize_the_execution_of_the_container"><a class="anchor" href="#_how_to_customize_the_execution_of_the_container"></a>How to customize the execution of the container?</h5>
+<div class="paragraph">
+<p>By default, a base image such as debian runs a <code>/bin/bash</code> command at startup time.
+We can customize that by using the <a href="https://docs.docker.com/engine/reference/builder/#/cmd">CMD</a> instruction.</p>
+</div>
+<div class="paragraph">
+<p>When the container starts, it will run this command.
+For example, if you have a container running a web server like Tomcat.
+Your Dockerfile will at first describe how to install Tomcat then at the end, <code>CMD</code> will run the <code>startup.sh</code> script.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+There can be only 1 <code>CMD</code> instruction. If the Dockerfile contains several of them, only the <strong>last</strong> one will be executed.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<div class="title">Exercise</div>
+<p>Create an image which follows those requirements:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Based on debian</p>
+</li>
+<li>
+<p>Refers to you as the maintainer</p>
+</li>
+<li>
+<p>Creates an logs folders under <code>/opt</code></p>
+</li>
+<li>
+<p>Add a file in this newly created folder</p>
+</li>
+<li>
+<p>List the content of the <code>/opt/logs</code> at runtime</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Then run a container based on that image.</p>
+</div>
+<div class="paragraph">
+<div class="title">Expected output</div>
+<p>The content of the <code>/opt/logs</code> folder (with the file you created step 4).</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_what_about_environment_variable"><a class="anchor" href="#_what_about_environment_variable"></a>What about environment variable?</h5>
+<div class="paragraph">
+<p>Of course we can use variables to avoid repeating ourselves in the Dockerfile.
+The <a href="https://docs.docker.com/engine/reference/builder/#/env">ENV</a> instruction let you declare an environment variable.</p>
+</div>
+<div class="paragraph">
+<p>The syntax is very simple: <code>ENV key value</code>.
+Then to use the variable you have 2 syntaxes <code>$key</code> or <code>${key}</code>.</p>
+</div>
+<div class="paragraph">
+<div class="title">Exercise</div>
+<p>Based on the previous exercise, put file name in a variable and reuse it afterward.</p>
+</div>
+<div class="paragraph">
+<div class="title">Expected output</div>
+<p>Pretty much the same as the previous exercise.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lesson_3_containers_and_the_rest_of_the_world"><a class="anchor" href="#_lesson_3_containers_and_the_rest_of_the_world"></a>Lesson 3: Containers and the rest of the world</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_not_that_isolated"><a class="anchor" href="#_not_that_isolated"></a>Not that isolated</h3>
+<div class="paragraph">
+<p>One of the main features of Docker is the <em>isolation</em> of containers.
+A running <em>container</em>, by default, can&#8217;t communicate with other containers or with the host machine.
+Furthermore, once you created an <em>image</em>, you can only read and write files within the running <em>container</em>.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="material/images//docker-turtles-communication.jpg" alt="docker turtles communication" width="400px">
+</div>
+</div>
+<div class="paragraph">
+<p>We can now communicate over network with our <em>container</em>, but what if we would like to share some data?
+We just need to add the <strong>VOLUME</strong> instruction to our <em>Dockerfile</em>.
+A <em>volume</em> is a special kind of directory that provides several useful features:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Volumes can be shared and reused between containers.</p>
+</li>
+<li>
+<p>A container doesn&#8217;t have to be running to share its volumes.</p>
+</li>
+<li>
+<p>Changes to a volume are made directly.</p>
+</li>
+<li>
+<p>Changes to a volume will not be included when you update an image.</p>
+</li>
+<li>
+<p>Volumes persist until no containers use them.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_volumes_sharing"><a class="anchor" href="#_volumes_sharing"></a>Volumes Sharing</h3>
+<div class="paragraph">
+<p>As we know, when we write on the filesystem, we actually write on a temporary layer which is not persistent across all the containers.
+To be able to share files with the outside world, we can mount an external Volume and attach it to a container.</p>
+</div>
+<div class="paragraph">
+<p>A volume can be a simple file or a directory which is mounted when the container is run.</p>
+</div>
+<div class="sect3">
+<h4 id="_between_the_host_and_the_container"><a class="anchor" href="#_between_the_host_and_the_container"></a>Between the Host and the container</h4>
+<div class="paragraph">
+<p>To be able to share files between the host and the container, you have to mount a local folder and map it with a folder from the container.
+The mount operation is as simple as adding a new argument to the run command.</p>
+</div>
+<div class="paragraph">
+<p>That argument is <code>-v &lt;host_path&gt;:&lt;container_path&gt;</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Both path must the absolute.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<div class="title">Exercise</div>
+<p>Run a container (with an interactive terminal) and shared a directory between your host and the container.
+For example we can use <code>${PWD}/docker4devs</code> from our host and <code>/opt/logs</code> on the container side.</p>
+</div>
+<div class="paragraph">
+<p>Once the container is started, go inside of <code>/opt/logs</code>.
+Then open a second terminal (on the host), and go to <code>${PWD}/docker4devs</code>.</p>
+</div>
+<div class="paragraph">
+<p>At this point, perform a series of <code>ls</code> and <code>touch</code> commands on both sides.
+Finally, exit the container and perform a last <code>ls</code> on the host directory.</p>
+</div>
+<div class="paragraph">
+<div class="title">Expected result</div>
+<p>Files created from the container are persisted in the host directory even after the container has been exited.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>In both cases, if &lt;host_path&gt; or &lt;container_path&gt; don&#8217;t exist, Docker will create them.</p>
+</div>
+<div class="paragraph">
+<p>If some files were already existing in the container, the overlay added by the mount will "hide" the files.
+One the volumes are unmounted, the original files will be accessible again.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_between_containers"><a class="anchor" href="#_between_containers"></a>Between containers</h4>
+<div class="paragraph">
+<p>As we&#8217;ve seen, the <code>-v</code> argument mounts a local (host) folder.
+But how can we share file between containers?</p>
+</div>
+<div class="sect4">
+<h5 id="_exposing_volumes"><a class="anchor" href="#_exposing_volumes"></a>Exposing volumes</h5>
+<div class="paragraph">
+<p>First, the container has to expose the volumes to share.
+This operation is possible via the <a href="https://docs.docker.com/engine/reference/builder/#volume">VOLUME</a> instruction in the Dockerfile.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s take the following Dockerfile:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>FROM debian:jessie-slim
+LABEL maintainer Guillaume Scheibel &lt;gscheibel@expedia.com&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>RUN mkdir /opt/logs</p>
+</div>
+<div class="paragraph">
+<p>To expose <code>/opt/logs</code>, we can use the <code>VOLUME</code> instruction.
+The syntax is either <code>VOLUME ["folder1", "folder2"]</code> or <code>VOLUME folder1 folder2</code>.</p>
+</div>
+<div class="paragraph">
+<p>Which gives in our case:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>FROM debian:jessie-slim
+LABEL maintainer Guillaume Scheibel &lt;gscheibel@expedia.com&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>RUN mkdir /opt/logs</p>
+</div>
+<div class="paragraph">
+<p>VOLUME /opt/logs</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_sharing"><a class="anchor" href="#_sharing"></a>Sharing</h5>
+<div class="paragraph">
+<p>Let&#8217;s assume, we have a first container running which exposes a volume and that container is named (using the <code>--name</code> argument) <code>containerWithVolume</code>.
+To run a second container (<code>secondContainer</code>) which can access the volume exposed by <code>containerWithVolume</code>, there is the <code>--volumes-from [CONTAINER]</code> argument.</p>
+</div>
+<div class="paragraph">
+<p>With this argument, when a file is written in one of the exposed volumes on the first container.
+This file (in the same location), will be accessible in the second container and vice versa.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+the sharing is bidirectional.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<div class="title">Exercise</div>
+<p>Create and build an image declaring a volume.
+Run a container from it (with a name).</p>
+</div>
+<div class="paragraph">
+<p>Then run another container, which will access the volume.
+Finally share some files between the two.</p>
+</div>
+<div class="paragraph">
+<div class="title">Expected output</div>
+<p>From the container sharing the volume:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>$ root@containerWithVolume:/opt/logs# ls
+fromContainerOne  fromContainerTwo</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>From the container accessing the volume:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>$ root@secondContainer:/opt/logs# ls
+fromContainerOne  fromContainerTwo</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+We can even have one of those container sharing a volume with the host and then the sharing can be done among the three parts.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lesson_4_more_instructions"><a class="anchor" href="#_lesson_4_more_instructions"></a>Lesson 4: More instructions &#8230;&#8203;</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_not_that_isolated_2"><a class="anchor" href="#_not_that_isolated_2"></a>Not that isolated</h3>
+<div class="paragraph">
+<p>When you want to build an image to support an application&#8217;s lifecycle</p>
+</div>
+<div class="paragraph">
+<p>If you have two containers, one running a service on <strong>port 8080</strong> and the other one wants to access it.
+As we said, the first container doesn&#8217;t expose any port by default, but we can easily solve this issue by adding the <strong>EXPOSE</strong> instruction to our <em>Dockerfile</em>.</p>
+</div>
+<div class="sect3">
+<h4 id="_port_mapping"><a class="anchor" href="#_port_mapping"></a>Port Mapping</h4>
+<div class="paragraph">
+<p>When you have an application like a web server running in a container, you may want to access it.</p>
+</div>
+<div class="paragraph">
+<p>Traditionally, http servers listen on port 80, 443 (or 8080 and 8433).
+But what would happen if 2 container were running the same http server?
+If you try to run 2 nginx servers locally, the second run will fail showing a "port already binded" error.</p>
+</div>
+<div class="paragraph">
+<p>For container, the concept of port mapping help to define which port from the host will be to communicate with the exposed port of the container.</p>
+</div>
+<div class="paragraph">
+<p>As said, nginx runs by default on port 80, we can map it with a port from our host (like 12345).
+So if we want to access the nginx inside of the container we can use <code><a href="http://localhost:12345" class="bare">http://localhost:12345</a></code>.</p>
+</div>
+<div class="paragraph">
+<p>Ports are being mapped when container are started using <code>-p &lt;host_port&gt;:&lt;container_port&gt;</code>.
+In the example above it would be <code>-p 12345:80</code>.</p>
+</div>
+<div class="paragraph">
+<div class="title">Exercise</div>
+<p>Run a container from the <code>nginx</code> image (pull it from the registry) with a port mapping and try to access the nginx server (use "/" to get the Welcome page).</p>
+</div>
+<div class="paragraph">
+<div class="title">Expected output</div>
+<p>While a curl (or equivalent):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>$ http localhost:12345 -h
+HTTP/1.1 200 OK
+Accept-Ranges: bytes
+Connection: keep-alive
+Content-Length: 612
+Content-Type: text/html
+Date: Thu, 23 Feb 2017 00:17:56 GMT
+ETag: "58a323e4-264"
+Last-Modified: Tue, 14 Feb 2017 15:36:04 GMT
+Server: nginx/1.11.10</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Use <code>-d</code> to run the container in background (to daemonize it).
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_port_exposition"><a class="anchor" href="#_port_exposition"></a>Port exposition</h4>
+<div class="paragraph">
+<p>If you want your custom image to expose a port, you have to explicitly expose it via the <a href="https://docs.docker.com/engine/reference/builder/#/expose">EXPOSE</a> instruction.
+The syntax is simple <code>EXPOSE &lt;port&gt;</code>.
+Several ports can be exposed either by using the <code>EXPOSE</code> instruction several times or using <code>EXPOSE &lt;port1&gt; &lt;port2&gt; &#8230;&#8203;.</code></p>
+</div>
+<div class="paragraph">
+<div class="title">Exercise</div>
+<p>Create a docker image based on debian, install nginx, expose port 80 and that the server at runtime.
+Then repeat the previous exercise.</p>
+</div>
+<div class="paragraph">
+<div class="title">Expected output</div>
+<p>After having created the image, you should be able to do:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>$ docker run -d -p 12345:80 docker4devs:nginx
+
+$ http localhost:12345 -h
+HTTP/1.1 200 OK
+Connection: keep-alive
+Content-Encoding: gzip
+Content-Type: text/html
+Date: Thu, 23 Feb 2017 00:46:47 GMT
+Last-Modified: Thu, 23 Feb 2017 00:36:11 GMT
+Server: nginx/1.6.2
+Transfer-Encoding: chunked</code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>To install nginx, use those commands: <code>apt-get update</code> and <code>apt-get install -y nginx</code>.</p>
+</div>
+<div class="paragraph">
+<p>To start the web server: <code>nginx -g 'daemon off;'</code></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_how_to_add_my_application_to_the_image"><a class="anchor" href="#_how_to_add_my_application_to_the_image"></a>How to add my application to the image?</h3>
+<div class="paragraph">
+<p>Now we know how to build an image and even how to get in touch with it via Volumes and Port exposition.
+The question is then, how do we incorporate our custom application like a war file into our image?</p>
+</div>
+<div class="paragraph">
+<p>So far our images are very static.
+When we start a nginx, it serves the default content available when it has been installed.
+Wouldn&#8217;t be interesting to copy an html file into our nginx and so we have a custom webapp running every time when run a container?</p>
+</div>
+<div class="paragraph">
+<p>As you can imagine it&#8217;s possible via a new instruction <a href="https://docs.docker.com/engine/reference/builder/#/copy">COPY</a>.</p>
+</div>
+<div class="paragraph">
+<p>The <code>COPY</code> instruction is very simple and copies the source files or directories and places them into the destination folder.</p>
+</div>
+<div class="paragraph">
+<p>The syntax is the following <code>COPY &lt;src&gt;&#8230;&#8203; &lt;dest&gt;</code>.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+Sources can contain <a href="https://golang.org/pkg/path/filepath/#Match">wildcards</a> such as <code>expedia*.html</code>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+If sources are relative, the path will be resolved based on the directory the build command has been invoked in.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<div class="title">Exercise</div>
+<p>Based on our custom nginx image, create an image which will copy a simple html file into <code>/var/www/html/</code>.
+Then start a container (don&#8217;t forget the port mapping) and try to access the html file.</p>
+</div>
+<div class="listingblock">
+<div class="title">Expected output</div>
+<div class="content">
+<pre class="highlight"><code>$ http localhost:8080/expedia.html
+HTTP/1.1 200 OK
+Connection: keep-alive
+Content-Encoding: gzip
+Content-Type: text/html
+Date: Tue, 28 Feb 2017 19:52:55 GMT
+Last-Modified: Tue, 28 Feb 2017 19:48:53 GMT
+Server: nginx/1.6.2
+Transfer-Encoding: chunked
+
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;docker4devs&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Hello Wold - Docker 4 devs&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The <a href="https://docs.docker.com/engine/reference/builder/#/add">ADD</a> instruction works the same way.
+The only difference being it supports URLs and can uncompress archives.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_navigating_in_the_filesystem"><a class="anchor" href="#_navigating_in_the_filesystem"></a>Navigating in the filesystem</h3>
+<div class="paragraph">
+<p>To navigate in the filesystem, we could <code>cd</code> but having a set of <code>RUN cd /path/ &amp;&amp; command;</code> is not really maintainable, readable and easy to troubleshoot.</p>
+</div>
+<div class="paragraph">
+<p>That&#8217;s why we have the <a href="https://docs.docker.com/engine/reference/builder/#workdir">WORKDIR</a> instruction.</p>
+</div>
+<div class="paragraph">
+<p>This instruction set the working directory and will affect the other "path" based instructions such as RUN, CMD, COPY, ADD, etc.
+The syntax is very easy <code>WORKDIR /path/to/workdir</code>.
+The path can be either absolute or relative.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>WORKDIR can support environment variable.
+For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>ENV LOGSPATH /opt/logs
+WORKDIR $LOGSPATH
+RUN pwd</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Will output <code>/opt/logs</code></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<div class="title">Exercise</div>
+<p>Based on the previous image, move to <code>/var/www/html</code> before doing the copy instruction.</p>
+</div>
+<div class="paragraph">
+<div class="title">Expected output</div>
+<p>The result should be the same as the previous exercise.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+Don&#8217;t forget to update the COPY instruction to reflect move.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lesson_5_when_several_containers_talk_to_each_other"><a class="anchor" href="#_lesson_5_when_several_containers_talk_to_each_other"></a>Lesson 5: When several containers talk to each other.</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_external_network"><a class="anchor" href="#_external_network"></a>External network</h3>
+<div class="sect3">
+<h4 id="_direct_communication"><a class="anchor" href="#_direct_communication"></a>Direct communication</h4>
+<div class="paragraph">
+<p>How to make 2 containers talking to each other via the network?
+Which IP address to use? <code>127.0.0.1</code>? <code>random.random.random.random</code>?</p>
+</div>
+<div class="paragraph">
+<div class="title">Let&#8217;s use a case of study:</div>
+<p>First, run a simple nginx container with <code>docker run -d --name webapp nginx</code>.</p>
+</div>
+<div class="paragraph">
+<p>Then run, with the <code>-it</code> param, a <code>gscheibel/docker4devs:curl</code> container (which is simply a glorified Debian with curl installed).</p>
+</div>
+<div class="paragraph">
+<div class="title">How to ping the nginx container from the curl one?</div>
+<p>By default, the docker engine manages a <code>bridge</code> network which is accessible from all the containers.
+Try to inspect the <code>webapp</code> container using <code>docker inspect webapp</code>.</p>
+</div>
+<div class="paragraph">
+<p>At the end, you should be able to see the network configurations for this container.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json" data-lang="json">{
+  "Networks": {
+      "bridge": {
+          "IPAMConfig": null,
+          "Links": null,
+          "Aliases": null,
+          "NetworkID": "ade9ac6b5007c77445544784f05f423d446e764c840c8355221547981c9cd6c3",
+          "EndpointID": "5307c8dab802788a78e3fba5d82c8480360bd6a125ac95690c8fcb15773bcf3f",
+          "Gateway": "172.17.0.1",
+          "IPAddress": "172.17.0.4", &lt;1&gt;
+          "IPPrefixLen": 16,
+          "IPv6Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "MacAddress": "02:42:ac:11:00:04",
+          "DriverOpts": null
+      }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>The <code>IPAddress</code> field gives you the IP address to use to connect to this container.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Now we have the ip address, go to your <code>docker4devs:curl</code> container and try:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>$ curl -I 172.17.0.4</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Expected output</div>
+<div class="content">
+<pre class="highlight"><code>HTTP/1.1 200 OK
+Server: nginx/1.13.5
+Date: Tue, 31 Oct 2017 13:17:40 GMT
+Content-Type: text/html
+Content-Length: 612
+Last-Modified: Tue, 08 Aug 2017 15:25:00 GMT
+Connection: keep-alive
+ETag: "5989d7cc-264"
+Accept-Ranges: bytes</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_specific_network"><a class="anchor" href="#_specific_network"></a>Specific network</h4>
+<div class="paragraph">
+<p>Knowing each container&#8217;s IP address is cumbersome and doesn&#8217;t isolate much (inside of a same host).
+To mitigate this situation, the engine provides the <a href="https://docs.docker.com/engine/reference/commandline/network/"><code>network</code> command</a>.</p>
+</div>
+<div class="paragraph">
+<p>The idea is to create a subnetwork (bridge by default) which  will be shared by several containers.
+Unlike the default bridge, container within a subnetwork can be accessed by their name.</p>
+</div>
+<div class="paragraph">
+<p>To associate a subnetwork a container (at creation time), the <code>--network=[NAME]</code> parameter of the <code>docker run</code> command can be used.</p>
+</div>
+<div class="paragraph">
+<div class="title">Exercise</div>
+<p>Create a subnetwork named <code>d4d-network</code>.
+Start a new nginx container named <code>webapp</code> and associate it to the <code>d4d-network</code> subnetwork.
+Finally do the same with a <code>curl</code> container.</p>
+</div>
+<div class="paragraph">
+<p>Then in your <code>curl</code> container you should be able to run:</p>
+</div>
+<div class="listingblock">
+<div class="title">In the curl container</div>
+<div class="content">
+<pre class="highlight"><code>$ curl -I webapp:80
+
+HTTP/1.1 200 OK
+Server: nginx/1.13.5
+Date: Tue, 31 Oct 2017 13:39:35 GMT
+Content-Type: text/html
+Content-Length: 612
+Last-Modified: Tue, 08 Aug 2017 15:25:00 GMT
+Connection: keep-alive
+ETag: "5989d7cc-264"
+Accept-Ranges: bytes</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_complex_builder_container"><a class="anchor" href="#_complex_builder_container"></a>Complex builder container</h3>
+<div class="sect3">
+<h4 id="_triggering_actions_on_a_child_image_at_build_time"><a class="anchor" href="#_triggering_actions_on_a_child_image_at_build_time"></a>Triggering actions on a child image at build time</h4>
+<div class="paragraph">
+<p>The <a href="https://docs.docker.com/engine/reference/builder/#onbuild">ONBUILD</a> instruction provides a way to defer the execution of some instructions.
+The instruction will be executed in the context of a downstream build.</p>
+</div>
+<div class="paragraph">
+<p>For example, you have a an image <code>d4d:builder</code> declared as:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>FROM debian
+
+ONBUILD  RUN echo "Hello world" &lt;1&gt;</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>The <code>RUN echo "Hello world"</code> instruction is executed only when the below image is built.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>When the engine builds the following image:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>FROM  d4d:builder</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>All the <code>ONBUILD</code> instructions are being executed <strong>first</strong> and in this example the output would be:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>$ docker build -f child .
+
+Sending build context to Docker daemon  3.072kB
+Step 1/1 : FROM d4d:builder
+# Executing 1 build trigger...
+Step 1/1 : RUN echo "Hello world"
+ ---> Running in f7e5885bd628
+Hello world <1>
+ ---> 1cee673766ae
+Removing intermediate container f7e5885bd628
+Successfully built 1cee673766ae</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>The result of the <code>ONBUILD</code> instruction set in d4d:builder</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_build_and_run_with_containers"><a class="anchor" href="#_build_and_run_with_containers"></a>Build and run with containers</h4>
+<div class="paragraph">
+<p>What if my build environment doesn&#8217;t support the language / environment my application is build on top of?</p>
+</div>
+<div class="paragraph">
+<p>For example, you want your new Go application to be built by your CI pipeline.
+But you don&#8217;t necessarily want to install the Go environment in each of your Jenkins slaves.</p>
+</div>
+<div class="paragraph">
+<p>One of the solution is to build your binary in a container.
+Then you can run your application in another container.</p>
+</div>
+<div class="sect4">
+<h5 id="_2_containers_1_script_old_way"><a class="anchor" href="#_2_containers_1_script_old_way"></a>2 containers + 1 script = old way</h5>
+<div class="paragraph">
+<p>The first approach is (was) to build a first image named <code>builder</code> to produce the binary.
+Then you have to create a container which you will extract the binary from.</p>
+</div>
+<div class="paragraph">
+<p>And finally, you build your <code>runner</code> image which will copy the produced binary.</p>
+</div>
+<div class="paragraph">
+<p>In terms of Dockerfile you have:</p>
+</div>
+<div class="listingblock">
+<div class="title">The builder image</div>
+<div class="content">
+<pre class="highlight"><code>FROM debian:jessie-slim
+
+RUN echo "&lt;html&gt;&lt;body&gt;&lt;h1&gt;Docker4devs Multi container pipeline&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;" &gt;&gt; index.html
+
+ONBUILD RUN echo "&lt;html&gt;&lt;body&gt;&lt;h1&gt;Docker4devs: when the child is built&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;" &gt;&gt; onbuild.html</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">The runner image</div>
+<div class="content">
+<pre class="highlight"><code>FROM nginx:latest
+
+COPY index.html /usr/share/nginx/html/</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">The script</div>
+<div class="content">
+<pre class="highlight"><code>#!/bin/sh
+
+echo Building application
+
+docker build -f dockerfile.build -t docker4devs:builder .
+
+docker create --name builder docker4devs:builder
+
+docker cp builder:/index.html ./
+
+docker rm -f builder
+
+cat index.html
+
+echo Building application
+
+docker build --no-cache -f dockerfile.run -t docker4devs:run .
+
+rm index.html</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_multistage_build"><a class="anchor" href="#_multistage_build"></a>Multistage build</h5>
+<div class="paragraph">
+<p>In order to simply this kind of use case, Docker created multistage build.</p>
+</div>
+<div class="paragraph">
+<p>The idea is to declare several images and their interactions in the same Dockerfile.</p>
+</div>
+<div class="paragraph">
+<p>The engine will create all the described images and will remove the intermediate ones at the end.git ad</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s look at an example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>FROM debian:latest as builder
+
+ARG FILE=hello.html
+WORKDIR /opt
+
+RUN echo "&lt;html&gt;&lt;body&gt;&lt;h1&gt;Docker4devs Multistage&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;" &gt;&gt; $FILE
+
+FROM nginx
+COPY --from=builder /opt/$FILE /usr/share/nginx/html/</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lesson_6_docker_compose_or_how_to_be_even_more_declarative_and_automated"><a class="anchor" href="#_lesson_6_docker_compose_or_how_to_be_even_more_declarative_and_automated"></a>Lesson 6: Docker-compose or how to be even more declarative and automated.</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_how_does_it_work"><a class="anchor" href="#_how_does_it_work"></a>How does it work?</h3>
+<div class="paragraph">
+<p>In the previous lessons, we have seen how to build images based on a declarative file <code>Dockerfile</code>.
+When comes the time to run container, we know we can use <code>docker run</code>.
+Which means if we need to start several containers, we have to run several valid run commands and ensure there are no conflicts between any of the containers (i.e. mapping to the same port).</p>
+</div>
+<div class="paragraph">
+<p>Docker-compose is a tool created to simplify how to define and run multi-container applications.
+A multi-container application could provide a service and its database or host several copies of the same application behind a reverse proxy.</p>
+</div>
+<div class="paragraph">
+<p>The same the Dockerfile is used to declare how to build the image, the <code>docker-compose.yml</code> is going to be used to declare how to run it</p>
+</div>
+<div class="paragraph">
+<p>Docker-compose is based on a yml file named by default <code>docker-compose.yml</code>.
+The file defines services, network and volumes configurations.</p>
+</div>
+<div class="paragraph">
+<p>The file is structured as:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>version: '3.0' <b class="conum">(1)</b>
+
+services: <b class="conum">(2)</b>
+  my-first-service: <b class="conum">(3)</b>
+    &lt;place holder for directives&gt;</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>The version refers to the compose file reference version, here 3.0 being the latest one</p>
+</li>
+<li>
+<p><code>services:</code> indicates the section reserved for the configurations which will be applied to containers</p>
+</li>
+<li>
+<p>The name of the service, you can have several of them (each name must be unique).</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+As the file is yaml (or yml) based, the indentation is important.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_up_and_running"><a class="anchor" href="#_up_and_running"></a>Up and running</h3>
+<div class="paragraph">
+<p>During the previous lesson, we created our own custom nginx image <code>docker4devs:nginx</code>.
+To run a container from this image, the command would look like <code>docker run -p 8080:80 docker4devs:nginx</code>.</p>
+</div>
+<div class="paragraph">
+<p>With docker-compose, we can declare how to run our nginx service.
+As part of the service description we have then to specify the <code>image: docker4devs:nginx</code>.
+For the port mappings, as we can have several values reflecting <code>8080:80</code> and <code>8443:443</code> for instance, we have to use a yaml list:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>ports:
+  - &lt;host_port_1&gt;:&lt;container_port_1&gt;
+  - &lt;host_port_2&gt;:&lt;container_port_2&gt;</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+You can apply the same principle with <code>volumes</code> instead of <code>ports</code> in order to mount volumes at runtime.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>To run our service, all we need is the <code>docker-compose up</code> command.</p>
+</div>
+<div class="paragraph">
+<div class="title">Exercise</div>
+<p>Create a docker-compose file which describes how to run the nginx service and then run it.</p>
+</div>
+<div class="paragraph">
+<div class="title">Expected output</div>
+<p>Docker-compose should display:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>Recreating dockerfiles_nginx_1
+Attaching to dockerfiles_nginx_1</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Of course, you can then access your application as usual.</p>
+</div>
+<div class="sect3">
+<h4 id="_build_up_and_running"><a class="anchor" href="#_build_up_and_running"></a>Build, up and running</h4>
+<div class="paragraph">
+<p>The same way <code>docker build</code> allows us to create a single image from a dockerfile.
+We can build several containers with a docker-compose file.</p>
+</div>
+<div class="paragraph">
+<p>"How?", you ask.
+Just add the <code>build</code> property as part of your service declaration.</p>
+</div>
+<div class="paragraph">
+<p>The <code>build</code> property has 2 flavors:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>It can follow by the path of the build context. Either a path to a directory containing a Dockerfile, or a url to a git repository eg: <code>build: ./path/context</code></p>
+</li>
+<li>
+<p>It can be an object with 3 possible sub properties:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>context</code> being the same as the one mentioned above.</p>
+</li>
+<li>
+<p><code>dockerfile</code> being the name of the file to build</p>
+</li>
+<li>
+<p><code>args</code> being the list of arguments to pass to the build process (same as <code>--build-arg</code> for <code>docker build</code>)</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+If the image doesn&#8217;t exist, Compose will try to pull it from the registry unless there is a build property.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<div class="title">Exercise</div>
+<p>Let&#8217;s add a build section to our docker-compose file.</p>
+</div>
+<div class="paragraph">
+<div class="title">Expected output</div>
+<p>If you already have the image in your local repository nothing should have changed.
+Otherwise you should notice the engine outputs the build steps.</p>
+</div>
+<div class="paragraph">
+<p>In the console you should notice something that looks like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>Building nginx
+Step 1/7 : FROM debian
+ ---&gt; e5599115b6a6
+Step 2/7 : RUN apt-get update &amp;&amp;     apt-get install -y nginx
+ ---&gt; Using cache
+ ---&gt; 29b60d8c2beb
+Step 3/7 : ENV HTMLDIR /var/www/html/
+ ---&gt; Running in 769da3d1b849
+ ---&gt; 366d5305a08a
+Removing intermediate container 769da3d1b849
+Step 4/7 : WORKDIR $HTMLDIR
+ ---&gt; 2ecde3ed7bcf
+Removing intermediate container 5ebf6cf8ed85
+Step 5/7 : COPY expedia.html ./
+ ---&gt; ed562e05ce97
+Removing intermediate container 05e3ca33efbc
+Step 6/7 : CMD nginx -g 'daemon off;'
+ ---&gt; Running in f404d75b7141
+ ---&gt; 9fced2a27d87
+Removing intermediate container f404d75b7141
+Step 7/7 : EXPOSE 80
+ ---&gt; Running in f59b35089c54
+ ---&gt; 8ab7a0abc31f
+Removing intermediate container f59b35089c54
+Successfully built 8ab7a0abc31f
+WARNING: Image for service nginx was built because it did not already exist. To rebuild this image you must use `docker-compose build` or `docker-compose up --build`.
+Recreating dockerfiles_nginx_1
+Attaching to dockerfiles_nginx_1</code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+If you want to rebuild each time, add the <code>--build</code> to the <code>docker-compose up</code> command.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+If you only want to build, use <code>docker-compose build</code>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_more_volumes_sharing"><a class="anchor" href="#_more_volumes_sharing"></a>More volumes sharing</h3>
+<div class="paragraph">
+<p>We&#8217;ve seen previously we can share volumes between containers with the <code>--volumes-from</code> argument.
+The same thing can be done with Compose.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s look at the following example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>version: '3.0'
+
+services:
+  webapp:
+    image: docker4devs:webapp
+    volumes:
+      - shared-volume:/container/path <b class="conum">(3)</b>
+
+  splunk-forwarder:
+    image: expedia-splunk-forwarder
+    volumes:
+      - shared-volume:/forwarder/path <b class="conum">(3)</b>
+
+volumes: <b class="conum">(1)</b>
+  shared-volume: <b class="conum">(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>The <code>volumes</code> section describes the shared volumes</p>
+</li>
+<li>
+<p>The simplest case is to mount a local volume (look at <code>docker volume ls</code> and <code>docker volume inspect</code> for more details)</p>
+</li>
+<li>
+<p>The first part of the mapping is the name for the shared volume followed by exposed path.</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+There are several syntaxes that can be used for the volume mapping see: <a href="https://docs.docker.com/compose/compose-file/#volumes-volumedriver" class="bare">https://docs.docker.com/compose/compose-file/#volumes-volumedriver</a>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lesson_7_launch_it_and_watch_it_fly"><a class="anchor" href="#_lesson_7_launch_it_and_watch_it_fly"></a>Lesson 7: Launch it and watch it fly</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Since the beginning of this course we&#8217;ve learnt how to create images and how to run containers.
+The last part of our journey is going to be about deployment.</p>
+</div>
+<div class="paragraph">
+<p>As we know, containers are an interesting solution to run an application but when comes the time to go to production we have to think about resiliency, monitoring etc.
+In this lesson we going to talk specifically 2 cluster management solutions: <strong>Mesos/Marathon</strong> and <strong>Amazon ECS</strong>.</p>
+</div>
+<div class="paragraph">
+<p>The goal is to deploy our application manually in both of these solutions.
+Even if in <em>real life</em> we would automate the deployment processes using each solution&#8217;s API (like what Primer is doing for EWE).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+There are several other solutions like Kubernetes but we won&#8217;t have the time work with them.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_mesos_marathon"><a class="anchor" href="#_mesos_marathon"></a>Mesos / Marathon</h3>
+<div class="quoteblock">
+<blockquote>
+Apache Mesos abstracts CPU, memory, storage, and other compute resources away from machines (physical or virtual), enabling fault-tolerant and elastic distributed systems to easily be built and run effectively.
+</blockquote>
+<div class="attribution">
+&#8212; Mesos documentation
+</div>
+</div>
+<div class="paragraph">
+<p><a href="http://mesos.apache.org/">Mesos</a> allows developers to <em>see</em> a cluster of machines as if it was a single machine.
+It takes care of the downstream resource management.</p>
+</div>
+<div class="paragraph">
+<p>Several frameworks have been developed on top of Mesos.
+There is Cronos to deal with distributed cron jobs and Marathon to run - docker - applications.</p>
+</div>
+<div class="paragraph">
+<p>From an Expedia standpoint, we have the capability to deploy Docker container in a Marathon cluster in our datacenter (Chandler).
+The whole cluster is part the <a href="https://confluence/display/ecptech/Stockyard">Stockyard project</a>.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+Stockyard is ECP&#8217;s platform for launching container-based applications - specifically using Docker. It provides a flat, scalable, robust platform powered by Apache Mesos.
+</blockquote>
+<div class="attribution">
+&#8212; Stockyard confluence page
+</div>
+</div>
+<div class="paragraph">
+<p>The goal is going to be able to deploy a simple application into a marathon cluster.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>At this stage, you should already have a docker image published into the docker hub (otherwise have a look at the end of the lesson 0).
+If needed we can reuse <code>{nginx-image}</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_how_to_deploy_in_marathon"><a class="anchor" href="#_how_to_deploy_in_marathon"></a>How to deploy in Marathon?</h4>
+<div class="paragraph">
+<p>You should be able to access <a href="https://marathon.stockyard.karmalab.net/ui/#/apps">Marathon UI</a> and see.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="material/images//marathon-UI.png" alt="marathon UI">
+</div>
+</div>
+<div class="paragraph">
+<p>From this interface we are going to configure our awesome application.
+At this stage, an application represents a long-running service, of which there would be many instances running on multiple hosts.</p>
+</div>
+<div class="paragraph">
+<p>Applications can be grouped to facilitate maintenance.
+And we are going to use the <a href="https://marathon.stockyard.karmalab.net/ui/#/group/%2Fcode-academy-docker4devs">code-academy-docker4devs group</a> for this lesson.</p>
+</div>
+<div class="paragraph">
+<p>The next step is to create an application.
+On the top right corner of the page there is a blue button "Create Application", let&#8217;s click on it.</p>
+</div>
+<div class="paragraph">
+<p>You should be able to see the following modal</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="material/images//new-app-modal.png" alt="new app modal">
+</div>
+</div>
+<div class="paragraph">
+<p>As our application is very simple we won&#8217;t tweak the parameter too much.</p>
+</div>
+<div class="paragraph">
+<p>For the ID (the name of our application), are going to follow this pattern <code>/code-academy-docker4devs/&lt;YOUR USERNAME&gt;-&lt;NAME OF YOUR APP&gt;</code></p>
+</div>
+<div class="paragraph">
+<p>For example as my application is simply named <code>nginx</code>, the ID will then <code>/code-academy-docker4devs/gscheibel-nginx</code>.</p>
+</div>
+<div class="paragraph">
+<p>Under the <code>Docker container</code> section we are going to provide 2 pieces of information:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Image: the full name of your image (including tag if needed), as you would use for a <code>docker pull</code> command (in my case <code>{nginx-image}</code>)</p>
+</li>
+<li>
+<p>Network: Select bridge to facilitate port mapping</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For the port mapping section, as we have selected a <code>Bridge</code> strategy, all we have to do is to provide the ports exposed by the container and Marathon will then assign a host port.
+Following the example, my <code>nginx</code> container is listening (and exposing) its port 80 so the configuration will simply be:</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="material/images//port-exposing.png" alt="port exposing">
+</div>
+</div>
+<div class="paragraph">
+<p>Finally, but optional, we can add some health check capability to our application.
+For example, I know if send an HTTP request to my application targeting <code>/</code> (root path) and it responds under 300ms then the application is "healthy".
+Go to the <code>Health Check</code> section to add this capability.
+It&#8217;s important when you want Marathon to auto scale your application.</p>
+</div>
+<div class="paragraph">
+<p>Everything seems to be OK, then <span class="image"><img src="material/images//create-app.png" alt="create app"></span></p>
+</div>
+<div class="paragraph">
+<p>After some time, your application should be marked as <code>Running</code>.
+If you have added an health check, it will mark it (normally) as <code>healthy</code>.</p>
+</div>
+<div class="paragraph">
+<p>Looking overall like</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="material/images//up-and-running.png" alt="up and running">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_how_to_test_my_application"><a class="anchor" href="#_how_to_test_my_application"></a>How to test my application?</h4>
+<div class="paragraph">
+<p>For this lesson, we are not going to do any load balancer or DNS management so we are going to hit the host directly.
+Under the <code>Instances</code> tab, you have all the running instances of your application.</p>
+</div>
+<div class="paragraph">
+<p>If you look carefully there is a link under your application instance ID</p>
+</div>
+<div class="paragraph">
+<p>In this example</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="material/images//marathon-instance.png" alt="marathon instance">
+</div>
+</div>
+<div class="paragraph">
+<p>The instance ID is <code>code-academy-docker4devs_gscheibel-nginx.9379f2ef-13f4-11e7-99bf-1402ec34bda8</code> while the exposed endpoint is <code>chlxmesosslv007.karmalab.net:31212</code>.</p>
+</div>
+<div class="paragraph">
+<p>You can click on the endpoint to access your application directly.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+By default the endpoint link uses HTTPS, don&#8217;t forget to change it if your application only supports HTTP.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>If everything is correct we can expect to see:</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="material/images//it-works.png" alt="it works">
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_amazon_ec2_container_service_ecs"><a class="anchor" href="#_amazon_ec2_container_service_ecs"></a>Amazon EC2 Container Service (ECS)</h3>
+<div class="paragraph">
+<p>Another way to deploy container is by using <a href="https://aws.amazon.com/ecs/">Amazon EC2 Container Service</a> aka ECS.</p>
+</div>
+<div class="paragraph">
+<p>In a nutshell ECS is</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+Amazon EC2 Container Service (ECS) is a highly scalable, high performance container management service that supports Docker containers and allows you to easily run applications on a managed cluster of Amazon EC2 instances.
+</blockquote>
+<div class="attribution">
+&#8212; ECS landing page
+</div>
+</div>
+<div class="paragraph">
+<p>For this course we are going to focus on deploying 1 container in ECS.
+To do that, the first step is to log into the <a href="https://aws-sso.tools.expedia.com">AWS console</a> with your SEA credentials.
+Then select the <code>EWEDEV_Admins</code> account.</p>
+</div>
+<div class="paragraph">
+<p>As you can imagine, we are going to focus only on the ECS part of AWS.
+And to dive into it, let&#8217;s go to the ECS console by selecting the ECS service in the search bar:</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="material/images//ecs-portal.png" alt="ecs portal">
+</div>
+</div>
+<div class="paragraph">
+<p>Once on the ECS page, you should be able to see a list of ECS cluster (group of EC2 instances used to deploy containers).
+Today we will be using <code>codeacademy-docker4devs</code>.</p>
+</div>
+<div class="paragraph">
+<p>But before looking deeper into the cluster, let&#8217;s have a look at another concept called <code>Task</code>.</p>
+</div>
+<div class="sect3">
+<h4 id="_task_definitions"><a class="anchor" href="#_task_definitions"></a>Task definitions</h4>
+<div class="paragraph">
+<p>A task describes a set of information regarding how to run an application.
+It&#8217;s fairly similar to what we did with Docker Compose in the previous lessons.</p>
+</div>
+<div class="paragraph">
+<p>Go to the <code>Task Definitions</code> and click on <code>Create new Task Definition</code>.</p>
+</div>
+<div class="paragraph">
+<p>In our case our task definition will have the following characteristics:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Task definition name: use <code>&lt;USERNAME&gt;-&lt;APP-NAME&gt;</code> (eg <code>gscheibel-nginx</code>)</p>
+</li>
+<li>
+<p>Task role: empty</p>
+</li>
+<li>
+<p>Network Mode: Bridge</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Then add a container, which would look like:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Container name: whatever you want</p>
+</li>
+<li>
+<p>Image: the complete name as you would use to perform a <code>docker pull</code> (eg: <code>gscheibel/expedia-docker-for-devs:nginx</code>)</p>
+</li>
+<li>
+<p>Memory limit: 128MB would be enough</p>
+</li>
+<li>
+<p>Port mapping:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Host: something between 49201 and 49300</p>
+</li>
+<li>
+<p>Container: the port exposed by your application (like 80 for a default HTTP routing)</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>That would be enough even though we could easily add more information with environment variables, labels etc.</p>
+</div>
+<div class="paragraph">
+<p>Once the container has been added, your Task definition should look like:</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="material/images//create-task-definition.png" alt="create task definition">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Tasks are versioned, which is helpful for some maintenance and evolutions
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_deploying"><a class="anchor" href="#_deploying"></a>Deploying</h4>
+<div class="paragraph">
+<p>Now we have our task created, let&#8217;s go back to our codeacademy-docker4devs cluster and <a href="https://us-west-2.console.aws.amazon.com/ecs/home?region=us-west-2#/clusters/codeacademy-docker4devs/runTask">run a task</a>.</p>
+</div>
+<div class="paragraph">
+<p>First select the task definition you&#8217;ve just created (the <code>:1</code> means it&#8217;s the first version).
+Select the codeacademy-docker4devs cluster leave the rest as is.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="material/images//run-task.png" alt="run task">
+</div>
+</div>
+<div class="paragraph">
+<p>And after some time the task should be <code>RUNNING</code></p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="material/images//task-running.png" alt="task running">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_testing_in_production"><a class="anchor" href="#_testing_in_production"></a>Testing in production</h4>
+<div class="paragraph">
+<p>Now our application is running let&#8217;s try to ping it.
+For the purpose of this course, there is no "advanced" network like load balancer or domain name.
+And to simplify the exercise we only use 1 shared EC2 instance.</p>
+</div>
+<div class="paragraph">
+<p>To reach our application we are going to use the public DNS entry (pre-set by AWS) being: <code>ec2-54-202-95-72.us-west-2.compute.amazonaws.com</code>.</p>
+</div>
+<div class="paragraph">
+<p>As my <code>gscheibel-nginx</code> container has been mapped to port <code>49200</code> (in my Task definition) I can simply do:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>$ curl ec2-54-202-95-72.us-west-2.compute.amazonaws.com:49200/expedia.html
+
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;docker4devs&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Hello World - Docker 4 devs&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The office network restriction blocks most of the request on the "non-standard" port, if it doesn&#8217;t work re-try while being connected to the corporate VPN.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2017-03-30 10:43:34 BST
+</div>
+</div>
+</body>
+</html>
